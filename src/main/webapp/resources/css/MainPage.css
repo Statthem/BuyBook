@@ -1,0 +1,82 @@
+body {
+	margin-right: 40%;
+	margin-left: 10%;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	line-height: 1.18571429;
+	color: #333333;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+	.table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 8px;
+	line-height: 1.18571429;
+	vertical-align: top;
+	border-top: 1px solid #DBE5EA;
+}
+
+.pagination {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin: 17px 0;
+	margin-top: 17px;
+	margin-bottom: 17px;
+	border-radius: 2px;
+}
+
+.pagination .currentStep {
+	color: inherit;
+	font-weight: bold;
+	opacity: 0.65;
+}
+
+.pagination>a, .pagination>span {
+	line-height: 1.188571429;
+	color: #8B2F20;
+	background-color: #FFF2AB;
+	border: 1px solid #F3DA95;
+	margin-left: -1px;
+	padding: 5px 13px;
+}
+
+.pagination>a, .pagination>span {
+	line-height: 1.188571429;
+	color: #8B2F20;
+	background-color: #FFF2AB;
+	border: 1px solid #F3DA95;
+	margin-left: -1px;
+	padding: 5px 13px;
+}
+
+#book_cover {
+	height: auto;
+	width: auto;
+	max-width: 300px;
+	max-height: 500px;
+}
+
+.rightContent {
+	width: 336px;
+padding: 10px;
+border-radius: 5px;
+margin-left: 119%;
+margin-right: -10px;
+float: left;
+min-height: 230px;
+position: absolute;
+box-sizing: border-box;
+}
+
+.leftContent {
+	    margin-left: 10%;
+}
+.bookBox{
+	min-height: 450px;
+    position: relative;
+    min-width: 1160px;
+}
