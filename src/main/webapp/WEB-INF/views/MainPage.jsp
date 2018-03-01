@@ -17,8 +17,18 @@
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/resources/css/MainPage.css">
 
+ <script src="${contextPath}/resources/js/book_catalogue.js"></script> 
 </head>
 <body>
+
+<c:if test="${not empty newBook}">
+		<script type="text/javascript">
+	        function codeAddress() {
+	            alert('new book uploaded successfuly');
+	        } window.onload = codeAddress;
+	       
+		</script>
+	</c:if>
 
 	<!-- Set maxResults on page -->
 	<c:if test="${empty param.maxResults}">
@@ -67,30 +77,6 @@
 		</select>
 	</div>
 
-	<script type="text/javascript">
-		function addMaxResultsParam() {
-			var x = document.getElementById("maxResults");
-			window.location.replace("/BuyBook/book_catalogue?maxResults="
-					+ x.value);
-		}
-
-		function OrderBy() {
-
-			var url = window.location.href;
-			var x = document.getElementById("OrderBy");
-			var y = document.getElementById("maxResults");
-
-			if (url.indexOf("book_catalogue/") !== -1) {
-				window.location.replace("/BuyBook/book_catalogue/" + x.value);
-			} else {
-				window.location.replace("book_catalogue/" + x.value);
-			}
-		}
-	</script>
-
-
-
-
 	<br> maxResults: ${maxResults}
 	<br>
 
@@ -116,8 +102,6 @@
 	<!-- check if sorted -->
 	<c:if test="${not empty sessionScope.sortedBooks}">
 
-		<div style="margin-left: 130%;">SORTED!!!</div>
-
 		<c:set var="allBooks" value="${sessionScope.sortedBooks}" />
 	</c:if>
 	<div class="bookBox">
@@ -138,6 +122,7 @@
 						id="book_cover" /></a> <br> Description: ${book.bookDescription}
 					<br> Release date: ${book.releaseDate} <br> genre:
 					${book.bookGenre}
+					<a href="${contextPath}/resources/html/bookInfo.html">test ajax</a>
 				</div>
 			</c:forEach>
 
@@ -147,7 +132,7 @@
 
 		<div class="rightContent">
 			<div class="genres">
-			<p>	FilterBy:            clear filter <input id="checkBox" type="checkbox" onchange="checkFilter()"> </p>
+			<p>	FilterBy:             <button id="checkBox" type="button" onclick="checkFilter()">clear filter</button> </p>
 				<c:forEach items="${genreList}" var="genre">
 					<div id=genre>
 						<a href="${contextPath}/book_catalogue/filter/filterBy${genre}">${genre}</a>
@@ -156,14 +141,7 @@
 			</div>
 		</div>
 	</div>
-<script type="text/javascript">
-function checkFilter() {
-	if(document.getElementById("checkBox").checked == true){
-		window.location.replace("${contextPath}/book_catalogue/filter/filterByNone");
-        document.getElementById("checkBox").checked = false;
-	}
-}
-</script>
+
 	<!-- Set current pageNumber (based on param.page)-->
 	<c:choose>
 		<c:when test="${empty param.page}">

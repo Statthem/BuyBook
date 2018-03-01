@@ -40,7 +40,7 @@
 	
 	<br>
 
-	<form:form method="POST" action="/BuyBook/uploadMultipleFile"
+	<form:form method="POST" action="/BuyBook/uploadBook"
 		enctype="multipart/form-data" modelAttribute="Book">
 
 		<table>

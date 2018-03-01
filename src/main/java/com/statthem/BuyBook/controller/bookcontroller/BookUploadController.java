@@ -60,59 +60,27 @@ public class BookUploadController {
 	/**
 	 * Upload multiple file using Spring Controller
 	 */
-	@RequestMapping(value = "/uploadMultipleFile", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadBook", method = RequestMethod.POST)
 	public ModelAndView uploadMultipleFileHandler(@ModelAttribute("Book") @Valid Book book,BindingResult result,
 			@RequestParam("releaseDate") String releaseDate,
 			@RequestParam("file") MultipartFile[] files) {
 
-
-		logger.debug("error count:"+ result.getErrorCount() + "   " + result.toString());
-		result.getAllErrors().forEach(error -> logger.info((error.getObjectName())));
-
-		List<String> errorsList = new ArrayList<>();
-
-		if(Arrays.asList(files).stream().anyMatch(file -> !FilenameUtils.getName(((MultipartFile) file).getOriginalFilename()).contains("pdf"))) {
-			errorsList.add("You must provide book PDF file");
-		}
-		if(releaseDate == null || releaseDate.length()==0 ||
-		   book.getBookName() == null || book.getBookName().length()==0 ||
-		   book.getBookDescription() == null || book.getBookDescription().length()==0 ||
-           book.getBookAuthor()== null || book.getBookAuthor().length()==0 ||
-           book.getBookGenre()== null || book.getBookGenre().length()==0)
-        	{ 
-			errorsList.add("all fields with *  are required");
-		    }
+		//Checking book fields and files
+		List<String> checkedErrorList = checkBook(book,files,releaseDate);
 		
-		if(!errorsList.isEmpty()){
-			return new ModelAndView("UploadPage","errorsList",errorsList);
-		}
+		checkedErrorList.forEach((error) -> logger.debug("error: " + error));
 		
-		//formating releaseDate
-		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-		Date parsed;
-		try {
-			parsed = format.parse(releaseDate);
-			java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
-			book.setReleaseDate(sqlDate);
-		} catch (ParseException exc) {
-			errorsList.add("wrong release date");
-		}
- 
-		errorsList.forEach((error) -> logger.debug("error: " + error));
-		
-		if(!errorsList.isEmpty()){
-			return new ModelAndView("UploadPage","errorsList",errorsList);
+		if(!checkedErrorList.isEmpty()){
+			return new ModelAndView("UploadPage","errorsList",checkedErrorList);
 		}
 
 
 		// Creating directories to store files
-
 		File backUpImageDir = new File(FolderPaths.BACKUP_IMAGE_FOLDER.getPath());
 		File backUpBookDir = new File(FolderPaths.BACKUP_BOOK_FOLDER.getPath());
 
 		File imageDir = new File(FolderPaths.IMAGE_FOLDER.getPath());
 		File bookDir = new File(FolderPaths.BOOK_FOLDER.getPath());
-
 
 		if (!imageDir.exists())
 			imageDir.mkdirs();
@@ -180,8 +148,44 @@ public class BookUploadController {
 
 		// adding book to data base
 		bookService.addBook(book);
-
-		return new ModelAndView("redirect:resources/html/SuccessfullUploading.html");
+		
+		ModelAndView  modelAndView  =  new ModelAndView();
+		modelAndView.setViewName("redirect:/book_catalogue");
+		modelAndView.addObject("newBook",book.getBookName());
+		return modelAndView;
+	}
+	
+	
+	private List<String> checkBook(Book book,MultipartFile[] files,String releaseDate){
+		List<String> errorList = new ArrayList<>();
+		
+		if(Arrays.asList(files).stream().noneMatch(file -> FilenameUtils.getName(((MultipartFile) file).getOriginalFilename()).contains("pdf"))) {
+			errorList.add("You must provide book PDF file");
+		}
+		
+		if(releaseDate == null || releaseDate.length()==0 ||
+		   book.getBookName() == null || book.getBookName().length()==0 ||
+		   book.getBookDescription() == null || book.getBookDescription().length()==0 ||
+           book.getBookAuthor()== null || book.getBookAuthor().length()==0 ||
+           book.getBookGenre()== null || book.getBookGenre().length()==0)
+        	{ 
+			errorList.add("all fields with *  are required");
+		    }
+		
+		//formating releaseDate
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		Date parsed;
+		try {
+			parsed = format.parse(releaseDate);
+			java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+			book.setReleaseDate(sqlDate);
+		} catch (ParseException exc) {
+			errorList.add("wrong release date");
+		}
+		
+		
+		return errorList;
+		
 	}
 
 	

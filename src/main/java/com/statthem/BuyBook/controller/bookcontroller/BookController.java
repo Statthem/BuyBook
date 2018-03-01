@@ -26,17 +26,23 @@ public class BookController {
 	
 	private static final Logger logger = Logger.getLogger(BookController.class);
 	
+//	@RequestMapping(value = "/book_catalogue/Book/{BookId}", method = RequestMethod.GET)
+//	public ModelAndView showBookInfo(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
+//
+//		long id = Long.valueOf(BookId);
+//
+//		Book book = bookService.getBook(id);
+//
+//		modelAndview.setViewName("BookInfo");
+//		modelAndview.addObject("CurrentBook", book);
+//
+//		return modelAndview;
+//	}
+	
 	@RequestMapping(value = "/book_catalogue/Book/{BookId}", method = RequestMethod.GET)
 	public ModelAndView showBookInfo(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
 
-		long id = Long.valueOf(BookId);
-
-		Book book = bookService.getBook(id);
-
-		modelAndview.setViewName("BookInfo");
-		modelAndview.addObject("CurrentBook", book);
-
-		return modelAndview;
+		return new ModelAndView("redirect:/resources/html/bookInfo.html","id",BookId);
 	}
 	
 	@RequestMapping(value = "/addToFavourite/{BookId}", method = RequestMethod.GET)
