@@ -90,8 +90,13 @@ public class MainController {
 		
 		 String genre = filterBy.substring(8);
 		 System.out.println(genre);
-		
+		 
 		List<Book> allBooks = new ArrayList<>(bookService.getAllBooks());
+		if(genre.equals("None")) {
+			session.removeAttribute("filteredBooks");
+			return new ModelAndView("redirect:/book_catalogue");
+		}
+		
 		Set<Book> filteredBooks = new HashSet<Book>(filter(genre,allBooks));
 		
        
@@ -130,21 +135,9 @@ public class MainController {
 	
 			List<Book> filteredBooks = new ArrayList<>();
 			
-//		if (filterBy.equals("FilterByRating")) {
-//			allBooks.stream().filter(book -> book.getBookRating() == rating)
-//			                 .forEach(book -> filteredBooks.add(book));
-//		}
-//		if (filterBy.equals("FilterByYear")){
-//			allBooks.stream().filter(book -> book.getReleaseDate().equals(date))
-//            .forEach(book -> filteredBooks.add(book));
-//}
-//			
-		//if (filterBy.equals("OrderByGenre")){
-		
+
 			allBooks.stream().filter(book -> book.getBookGenre().equals(genre))
-            .forEach(book -> filteredBooks.add(book));
-//}
-			
+            .forEach(book -> filteredBooks.add(book));			
 		
 		return filteredBooks;
 	}

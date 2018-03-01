@@ -147,7 +147,7 @@
 
 		<div class="rightContent">
 			<div class="genres">
-			<p>	FilterBy:            clear filter <input id="checkBox" type="checkbox"> </p>
+			<p>	FilterBy:            clear filter <input id="checkBox" type="checkbox" onchange="checkFilter()"> </p>
 				<c:forEach items="${genreList}" var="genre">
 					<div id=genre>
 						<a href="${contextPath}/book_catalogue/filter/filterBy${genre}">${genre}</a>
@@ -156,8 +156,14 @@
 			</div>
 		</div>
 	</div>
-
-
+<script type="text/javascript">
+function checkFilter() {
+	if(document.getElementById("checkBox").checked == true){
+		window.location.replace("${contextPath}/book_catalogue/filter/filterByNone");
+        document.getElementById("checkBox").checked = false;
+	}
+}
+</script>
 	<!-- Set current pageNumber (based on param.page)-->
 	<c:choose>
 		<c:when test="${empty param.page}">
