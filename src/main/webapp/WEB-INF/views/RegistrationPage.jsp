@@ -9,83 +9,54 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<style rel="stylesheet" type="text/css">
-body {
-	font-size: 16pt;
-}
-
-fieldset {
-	font-size: 12px;
-	font-weight: bold;
-	padding: 10px;
-	width: 500px;
-}
-
-td {
-	font-size: 14px;
-}
-
-td.label {
-	text-align: right;
-	width: 175px;
-}
-
-td.form {
-	width: 350px;
-}
-
-div.submit {
-	width: 450px;
-	text-align: right;
-	padding-top: 15px;
-}
-
-span.small {
-	font-size: 10px;
-}
-
-span.required {
-	font-weight: bold;
-	font-size: 20px;
-	color: #ff0000;
-}
-
-input {
-	border-style: solid;
-	border-color: #000000;
-	border-width: 1px;
-	background-color: #f2f2f2;
-}
-
-.steps {
-	width: 500px;
-}
-
-td.stepOn, td.stepOff {
-	width: 100px;;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000000;
-	padding: 5px;
-	font-size: 14px;
-}
-
-td.stepOff {
-	background-color: #efefef;
-}
-
-.proceed {
-	text-align: right;
-}
-</style>
+ <link rel="stylesheet" href="${contextPath}/resources/css/style.css">
 
 </head>
 <body>
 
 
-	<Center>Registration</Center>
-	<br>
-	<br>
+
+
+<div
+		class="form-group ${requestScope['org.springframework.validation.BindingResult.obj'].hasFieldErrors('text1') ? 'hasErrors' : ''}">
+		
+		
+ <div id="login-box">
+  <div class="left">
+    <h1>Sign up</h1>
+    
+    
+		<c:if test="${not empty errorsList}">
+				<c:forEach items="${errorsList}" var="error">
+					<p style="color: red;">${error}</p>
+				</c:forEach>
+			</c:if>
+    
+    <form:form method="POST" action="/BuyBook/user/registration"
+			modelAttribute="user">
+    <form:input path="userName" placeholder="User Name"/>    
+    <input type="text" name="userEmail" placeholder="E-mail"/>
+    <form:input path="userPassword" placeholder="Password"/>
+    <form:input path="matchingPassword" placeholder="Confirm password"/>
+    
+    <input type="submit" name="signup_submit" value="Sign me up" />
+  
+    </form:form>
+    
+  </div>
+  
+  <div class="right">
+    <span class="loginwith">Sign in with<br />social network</span>
+    
+    <button class="social-signin facebook">Log in with facebook</button>
+    <button class="social-signin twitter">Log in with Twitter</button>
+    <button class="social-signin google">Log in with Google+</button>
+  </div>
+  <div class="or">OR</div>
+</div>
+</div>
+
+<!-- 
 	<br>
 	<div
 		class="form-group ${requestScope['org.springframework.validation.BindingResult.obj'].hasFieldErrors('text1') ? 'hasErrors' : ''}">
@@ -129,7 +100,8 @@ td.stepOff {
 
 
 	</div>
-
+ -->
+ 
 </body>
 
 
