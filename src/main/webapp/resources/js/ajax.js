@@ -21,11 +21,14 @@ var url = window.location.href;
 var index = url.indexOf("e/Book/"); 
 var id = url.substring(index+7,url.length);
 
+var pathToImage="/BuyBook/resources/images/";
+
 ajax_get('/BuyBook/getBook/'+id, function(data) {
     document.getElementById("title").innerHTML = data["bookName"];
     document.getElementById("Author").innerHTML = data["bookAuthor"];
- 
     var html = data["bookDescription"];
+    
+    document.getElementById("book_cover").src = pathToImage + data["imageId"];
     
    // html += "<ul>";
     //   for (var i=0; i < data["articles"].length; i++) {

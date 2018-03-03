@@ -18,7 +18,6 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="${contextPath}/resources/js/book_catalogue.js"></script>
-<script  src="${contextPath}/resources/js/ajax.js"></script>
 </head>
 <body>
 
