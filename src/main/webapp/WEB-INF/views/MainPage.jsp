@@ -10,25 +10,58 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Main Page</title>
-
+<title>Book catalogue</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/resources/css/MainPage.css">
-
- <script src="${contextPath}/resources/js/book_catalogue.js"></script> 
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="${contextPath}/resources/js/book_catalogue.js"></script>
+<script  src="${contextPath}/resources/js/ajax.js"></script>
 </head>
 <body>
 
-<c:if test="${not empty newBook}">
+
+
+	<div class="topnav">
+		<a class="active" href="#home">Home</a> <a href="#about">About</a> <a
+			href="#contact">Contact</a>
+		<div class="search-container">
+			<form:form action="${contextPath}/book_catalogue/search" method="POST">
+				<input type="text" placeholder="Search.." name="bookName">
+				<button type="submit">
+					<i class="fa fa-search"></i>
+				</button>
+			</form:form>
+		</div>
+	</div>
+
+
+
+
+
+	<!-- check for pop-ups -->
+
+	<c:if test="${not empty newBook}">
 		<script type="text/javascript">
 	        function codeAddress() {
 	            alert('new book uploaded successfuly');
 	        } window.onload = codeAddress;
-	       
+		</script>
+		<c:remove var="newBook"/>
+	</c:if>
+
+	<c:if test="${not empty bookNotFound}">
+		<script type="text/javascript">
+	        function codeAddress() {
+	            alert('Sorry, book:${bookNotFound} not found');
+	        } window.onload = codeAddress;
+	    	<c:remove var="searchedBook"/>
+	    		<c:remove var="bookNotFound"/>
 		</script>
 	</c:if>
+
 
 	<!-- Set maxResults on page -->
 	<c:if test="${empty param.maxResults}">
@@ -87,6 +120,24 @@
 	<br>
 
 
+	<!-- check if sorted -->
+	<c:if test="${not empty sessionScope.sortedBooks}">
+
+		<c:set var="allBooks" value="${sessionScope.sortedBooks}" />
+	</c:if>
+	<!-- check if filtered -->
+	<c:if test="${not empty filteredBooks}">
+		<c:set var="allBooks" value="${filteredBooks}" />
+	</c:if>
+
+	<!-- check if searched -->
+	<c:if test="${not empty sessionScope.searchedBook}">
+		<c:set var="allBooks" value="${searchedBook}" />
+		<c:remove var="searchedBook"/>
+	</c:if>
+
+
+
 	<!-- Set begin and end for "for each"-->
 	<c:if test="${empty param.offset}">
 		<c:set var="b" value="${maxResults-maxResults}" />
@@ -98,19 +149,8 @@
 
 	<c:set var="e" value="${b + (maxResults-1)}" />
 
-
-	<!-- check if sorted -->
-	<c:if test="${not empty sessionScope.sortedBooks}">
-
-		<c:set var="allBooks" value="${sessionScope.sortedBooks}" />
-	</c:if>
 	<div class="bookBox">
 		<div class="leftContent">
-
-			<!-- check if filtered -->
-			<c:if test="${not empty filteredBooks}">
-				<c:set var="allBooks" value="${filteredBooks}" />
-			</c:if>
 
 			<!-- Show Books -->
 			<c:forEach items="${allBooks}" var="book" begin="${b}" end="${e}">
@@ -121,8 +161,8 @@
 						src="${contextPath}/resources/images/${book.imageId}"
 						id="book_cover" /></a> <br> Description: ${book.bookDescription}
 					<br> Release date: ${book.releaseDate} <br> genre:
-					${book.bookGenre}
-					<a href="${contextPath}/resources/html/bookInfo.html">test ajax</a>
+					${book.bookGenre} <a
+						href="${contextPath}/resources/html/bookInfo.html">test ajax</a>
 				</div>
 			</c:forEach>
 
@@ -132,7 +172,11 @@
 
 		<div class="rightContent">
 			<div class="genres">
-			<p>	FilterBy:             <button id="checkBox" type="button" onclick="checkFilter()">clear filter</button> </p>
+				<p>
+					FilterBy:
+					<button id="checkBox" type="button" onclick="checkFilter()">clear
+						filter</button>
+				</p>
 				<c:forEach items="${genreList}" var="genre">
 					<div id=genre>
 						<a href="${contextPath}/book_catalogue/filter/filterBy${genre}">${genre}</a>
@@ -198,11 +242,6 @@
 			</span></th>
 		</tr>
 	</tfoot>
-
-	<br>
-	<br>
-
-	<img src="http://localhost:8080/images/witcher.jpg">
 
 	<!--  offset=  "$" + "{((0 + maxResults)*val)-maxResults}" OMG WTF	
 	<a href="/?offset=60&amp;max=30" class="step">3</a>

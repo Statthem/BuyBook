@@ -28,9 +28,9 @@ public class RestBookController {
 	        Book book = bookService.getBook(bookId);
             book.setUsersInFavourite(null);
 	        
-	        if (book == null) {
+	        if (book == null) 
 	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	        }
+	        
 
 	        return new ResponseEntity<>(book, HttpStatus.OK);
 

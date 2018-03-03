@@ -15,6 +15,8 @@ public interface IBookService {
 	
 	public Book getBook(long id) ;
 	
+	public Book getBookbyName(String bookName) ;
+	
 	public Set<Book> getAllBooks();
 	
 	public FileSystemResource downloadBook(String bookName,Logger logger);

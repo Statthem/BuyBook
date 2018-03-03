@@ -15,5 +15,7 @@ public interface BookDAO {
 	public void ModifyBook(Book book);
 	
 	public Book getBookById(long book_id);
+	
+	public Book getBookByName(String bookName);
 
 }

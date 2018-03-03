@@ -18,8 +18,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.impl.NotNullValidator;
 
 import com.statthem.BuyBook.validation.*;
 
@@ -40,19 +43,14 @@ public class User implements Serializable{
 	private long id;
 	
 	@Column(name="user_name")
-	@NotNull
-	@NotEmpty
 	private String userName;
 	
 	@Column(name="user_email")
-	@NotNull
-	@NotEmpty
+	
 	@ValidEmail
 	private String userEmail;
 	
 	@Column(name="user_password")
-	@NotNull
-	@NotEmpty
 	private String userPassword;
 	
 	@Column(name="role_id")

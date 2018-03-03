@@ -28,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,14 +57,14 @@ public class MainController {
 	UserService userService;
 	
 	@RequestMapping(value = "/book_catalogue", method = RequestMethod.GET)
-	public String getMainPage(Model model) {
+	public ModelAndView  getMainPage(ModelAndView modelAndView) {
 
 		logger.info("in getMainPage method");
 
-		// model.addAllAttributes(toMap((Set<Book>)bookDAOImpl.getAllBooks()));
-		model.addAttribute("allBooks", bookService.getAllBooks());
-		model.addAttribute("genreList",BookService.GENRES);
-		return "MainPage";
+		modelAndView.setViewName("MainPage");
+		modelAndView.addObject("allBooks", bookService.getAllBooks());
+		modelAndView.addObject("genreList",BookService.GENRES);
+		return modelAndView;
 
 	}
 
@@ -89,7 +90,6 @@ public class MainController {
 			HttpSession session) {
 		
 		 String genre = filterBy.substring(8);
-		 System.out.println(genre);
 		 
 		List<Book> allBooks = new ArrayList<>(bookService.getAllBooks());
 		if(genre.equals("None")) {
@@ -99,7 +99,6 @@ public class MainController {
 		
 		Set<Book> filteredBooks = new HashSet<Book>(filter(genre,allBooks));
 		
-       
 		session.setAttribute("filteredBooks", filteredBooks);
 		session.setAttribute("FilteredBy", filterBy);
 
@@ -109,7 +108,30 @@ public class MainController {
 		return modelAndView;
 	}
 	
+	
+	@RequestMapping(value = "/book_catalogue/search", method = RequestMethod.POST)
+	
+	public ModelAndView searchBook(@RequestParam(value="bookName", required=true)  String bookName,
+			ModelAndView modelAndView,Model model,HttpSession session) {
+		
+		bookName = bookName.trim();
+		Book book = bookService.getBookbyName(bookName);
+				if(book==null) {
+					model.addAttribute("bookNotFound",bookName);
+					return new ModelAndView("MainPage");
+				}
+       List<Book> singleBook = new ArrayList<>();
+       singleBook.add(book);
+		session.setAttribute("searchedBook", singleBook);
 
+		
+		modelAndView.setViewName("MainPage");
+		return modelAndView;
+	}
+	
+	
+	
+   //copying files from backup folder to webapp/resources
 	@PostConstruct
 	private void copyFiles() {
 		File imagesFrom = new File(FolderPaths.BACKUP_IMAGE_FOLDER.getPath());

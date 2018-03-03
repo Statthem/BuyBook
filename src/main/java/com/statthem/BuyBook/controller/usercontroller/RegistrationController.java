@@ -43,7 +43,7 @@ public class RegistrationController {
 	public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid User user, BindingResult result, Model model,
 			WebRequest request, Errors errors) {
 
-		logger.debug("error Count " + errors.getErrorCount());
+		logger.debug("error Count " + result.getErrorCount());
 
 		List<String> errorsList = new ArrayList<>();
 

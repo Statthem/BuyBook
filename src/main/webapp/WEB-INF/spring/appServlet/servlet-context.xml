@@ -18,7 +18,7 @@
 	<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
 	
 	<!-- MVC -->
-	<mvc:annotation-driven validator="myBeansValidator">
+	<mvc:annotation-driven>
 	
 	 <mvc:message-converters>
 	   <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
@@ -27,8 +27,6 @@
     
     </mvc:annotation-driven>
 	
-	<!-- Validator -->
-	<beans:bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 	
 	<!-- create transactionManager bean -->
 	<beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
@@ -56,6 +54,7 @@
 		<beans:property name="maxUploadSize" value="10000000" />
 
 	</beans:bean>
+	
 
 <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

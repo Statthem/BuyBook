@@ -86,6 +86,21 @@ public class BookDAOImpl implements BookDAO {
 		return book;
 	}
 	
+	public Book getBookByName(String bookName) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Book book = null;
+		
+		Query hqlQuery = session.createQuery("Select b from Book b where b.bookName = :bookName");
+		hqlQuery.setParameter("bookName", bookName);
+		book = (Book)  hqlQuery.uniqueResult();
+		if(Objects.isNull(book)) {
+			logger.info("book is null");
+			return null;
+		}else {
+		}
+		return book;
+	}
+	
 	
 	
 	public void ModifyBook(Book book) {

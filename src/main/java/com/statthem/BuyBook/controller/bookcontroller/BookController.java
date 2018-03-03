@@ -41,8 +41,8 @@ public class BookController {
 	
 	@RequestMapping(value = "/book_catalogue/Book/{BookId}", method = RequestMethod.GET)
 	public ModelAndView showBookInfo(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
-
-		return new ModelAndView("redirect:/resources/html/bookInfo.html","id",BookId);
+       
+		return new ModelAndView("forward:/resources/html/bookInfo.html","id",BookId);
 	}
 	
 	@RequestMapping(value = "/addToFavourite/{BookId}", method = RequestMethod.GET)

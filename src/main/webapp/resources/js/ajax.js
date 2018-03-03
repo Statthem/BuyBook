@@ -17,14 +17,15 @@ function ajax_get(url, callback) {
     xmlhttp.send();
 }
 
-var url = new URL(window.location.href); 
-var id = url.searchParams.get("id");
+var url = window.location.href; 
+var index = url.indexOf("e/Book/"); 
+var id = url.substring(index+7,url.length);
 
 ajax_get('/BuyBook/getBook/'+id, function(data) {
     document.getElementById("title").innerHTML = data["bookName"];
     document.getElementById("Author").innerHTML = data["bookAuthor"];
  
-    var html = "<h2>" + data["bookDescription"] + "</h2>";
+    var html = data["bookDescription"];
     
    // html += "<ul>";
     //   for (var i=0; i < data["articles"].length; i++) {

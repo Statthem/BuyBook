@@ -61,7 +61,7 @@ public class BookUploadController {
 	 * Upload multiple file using Spring Controller
 	 */
 	@RequestMapping(value = "/uploadBook", method = RequestMethod.POST)
-	public ModelAndView uploadMultipleFileHandler(@ModelAttribute("Book") @Valid Book book,BindingResult result,
+	public ModelAndView uploadMultipleFileHandler(@ModelAttribute("Book") @Valid Book book,BindingResult result, Model model,
 			@RequestParam("releaseDate") String releaseDate,
 			@RequestParam("file") MultipartFile[] files) {
 
@@ -150,8 +150,8 @@ public class BookUploadController {
 		bookService.addBook(book);
 		
 		ModelAndView  modelAndView  =  new ModelAndView();
-		modelAndView.setViewName("redirect:/book_catalogue");
-		modelAndView.addObject("newBook",book.getBookName());
+		modelAndView.setViewName("MainPage");
+		model.addAttribute("newBook",book.getBookName());
 		return modelAndView;
 	}
 	
@@ -159,6 +159,7 @@ public class BookUploadController {
 	private List<String> checkBook(Book book,MultipartFile[] files,String releaseDate){
 		List<String> errorList = new ArrayList<>();
 		
+		//if no pdf file
 		if(Arrays.asList(files).stream().noneMatch(file -> FilenameUtils.getName(((MultipartFile) file).getOriginalFilename()).contains("pdf"))) {
 			errorList.add("You must provide book PDF file");
 		}

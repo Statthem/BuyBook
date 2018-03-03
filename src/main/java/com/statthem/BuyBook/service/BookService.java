@@ -60,6 +60,11 @@ public Book getBook(long id) {
 	return this.bookDAOImpl.getBookById(id);
 }
 
+@Transactional
+public Book getBookbyName(String bookName) {
+	return this.bookDAOImpl.getBookByName(bookName);
+}
+
 public FileSystemResource downloadBook(String bookName,Logger logger) {
 	String rootPath = System.getProperty("catalina.home");
 	File bookDir = new File(FolderPaths.BOOK_FOLDER.getPath());
