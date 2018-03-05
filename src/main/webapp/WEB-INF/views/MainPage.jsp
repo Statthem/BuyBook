@@ -6,37 +6,91 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <!Doctype>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Book catalogue</title>
+<title>Book catalog</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/resources/css/MainPage.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
 <script src="${contextPath}/resources/js/book_catalogue.js"></script>
 </head>
 <body>
 
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <i class="fa fa-bars fa-lg"></i>
+      </button>
+      
+      
+    <div id="navbar" class="navbar-collapse collapse">
+       <form:form  action="${contextPath}/book_catalogue/search"
+				method="POST" class="navbar-form navbar-right">
+  <div class="fast-search input-group">                                    
+    <select id="q" placeholder="book title" class="form-control head-suggestion selectized" maxlength="50" tabindex="-1" style="display: none;"><option value="" selected="selected"></option></select><div class="selectize-control form-control head-suggestion single plugin-preserve_on_blur"><div class="selectize-input items not-full"><input type="text" name="bookName" autocomplete="off" tabindex="" placeholder="book title" name="q" type="text"></div></div>
+    <span class="input-group-btn"> 
+    
+      <button type="submit" title="Search" class="btn btn-default">
+        <span class="fa fa-search"></span>
+      </button>
+    </span>
+  </div>
+</form:form>
 
 
-	<div class="topnav">
-		<a class="active" href="#home">Home</a> <a href="#about">About</a> <a
-			href="#contact">Contact</a>
-		<div class="search-container">
-			<form:form action="${contextPath}/book_catalogue/search" method="POST">
-				<input type="text" placeholder="Search.." name="bookName">
-				<button type="submit">
-					<i class="fa fa-search"></i>
-				</button>
-			</form:form>
-		</div>
-	</div>
+
+      <ul id="accountMenu" class="nav navbar-nav navbar-right">
+        
 
 
+
+
+  <li><a class="strong" href="/BuyBook/registration">Register</a></li>
+  <li><a class="strong" href="/BuyBook/login">Login</a></li>
+  
+ <sec:authorize access="isAuthenticated()"> 
+  <li><a  href="/BuyBook/logout">Log Out</a></li>
+	</sec:authorize>
+	
+      </ul>
+      
+    
+</div>
+
+
+
+      <ul class="hidden-lg hidden-md hidden-sm hidden-xs visible-xxs-inline list-unstyled">
+        <li>
+          <a href="http://readmanga.me" title="Читай мангу" rel="nofollow">Read&nbsp;Manga</a>
+
+    <a href="/internal/redirect?type=ad&amp;id=%2F" title="Читай взрослую мангу" class="hidden-xs">Mint&nbsp;Manga</a>
+
+
+    <a href="http://doramatv.ru" title="Смотри и обсуждай Дораму онлайн" rel="nofollow">Dorama&nbsp;TV</a>
+
+<a href="http://librebook.me" title="Читай книги онлайн" rel="nofollow">Libre&nbsp;Book</a>
+<a href="http://findanime.me" title="Смотри и обсуждай аниме онлайн" rel="nofollow">Find&nbsp;Anime</a>
+<a href="http://selfmanga.ru" title="Создавай и читай мангу" rel="nofollow">Self&nbsp;Manga</a>
+
+<a class="hidden-xs" href="http://selflib.me" title="Создавай и читай самиздат" rel="nofollow">Self&nbsp;Lib</a>
+
+<a href="https://grouple.co" title="Закладки, активности, общение" rel="nofollow">GroupLe</a>
+
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
 
 
 
@@ -44,20 +98,22 @@
 
 	<c:if test="${not empty newBook}">
 		<script type="text/javascript">
-	        function codeAddress() {
-	            alert('new book uploaded successfuly');
-	        } window.onload = codeAddress;
+			function codeAddress() {
+				alert('new book uploaded successfuly');
+			}
+			window.onload = codeAddress;
 		</script>
-		<c:remove var="newBook"/>
+		<c:remove var="newBook" />
 	</c:if>
 
 	<c:if test="${not empty bookNotFound}">
 		<script type="text/javascript">
-	        function codeAddress() {
-	            alert('Sorry, book:${bookNotFound} not found');
-	        } window.onload = codeAddress;
-	    	<c:remove var="searchedBook"/>
-	    		<c:remove var="bookNotFound"/>
+			function codeAddress() {
+				alert('Sorry, book:${bookNotFound} not found');
+			}
+			window.onload = codeAddress;
+			<c:remove var="searchedBook"/>
+			<c:remove var="bookNotFound"/>
 		</script>
 	</c:if>
 
@@ -75,53 +131,12 @@
 		<c:set var="maxResults" value="${maxResults}" scope="session" />
 	</c:if>
 
-
-	<!-- Select for maxResults   -->
-	<div id=maxResultsDiv>
-		<select id=maxResults onchange="addMaxResultsParam()">
-			<option value="${maxResults}">${maxResults}</option>
-			<c:if test="${maxResults != 5}">
-				<option value="5">5</option>
-			</c:if>
-			<c:if test="${maxResults != 10}">
-				<option value="10">10</option>
-			</c:if>
-			<c:if test="${maxResults != 20}">
-				<option value="20">20</option>
-			</c:if>
-		</select>
-	</div>
-
-
-	<!-- Select for OrderBy   -->
-	<div id=OrderByDiv>
-		<select id=OrderBy onchange="OrderBy()">
-			<option value="${sessionScope.OrderedBy}">${sessionScope.OrderedBy}</option>
-			<c:if test="${sessionScope.OrderedBy != 'OrderByName'}">
-				<option value="OrderByName">Order by name</option>
-			</c:if>
-			<c:if test="${sessionScope.OrderedBy != 'OrderByRelease_date'}">
-				<option value="OrderByRelease_date">Order by release date</option>
-			</c:if>
-			<c:if test="${sessionScope.OrderedBy != 'OrderByRating'}">
-				<option value="OrderByRating">Order by rating</option>
-			</c:if>
-		</select>
-	</div>
-
-	<br> maxResults: ${maxResults}
 	<br>
-
-	<div id=addBook style="margin-right: 15%;">
-		<a href="${contextPath}/upload"> add new book </a>
-	</div>
-
 	<br>
 
 
 	<!-- check if sorted -->
 	<c:if test="${not empty sessionScope.sortedBooks}">
-
 		<c:set var="allBooks" value="${sessionScope.sortedBooks}" />
 	</c:if>
 	<!-- check if filtered -->
@@ -132,7 +147,7 @@
 	<!-- check if searched -->
 	<c:if test="${not empty sessionScope.searchedBook}">
 		<c:set var="allBooks" value="${searchedBook}" />
-		<c:remove var="searchedBook"/>
+		<c:remove var="searchedBook" />
 	</c:if>
 
 
@@ -148,32 +163,121 @@
 
 	<c:set var="e" value="${b + (maxResults-1)}" />
 
-	<div class="bookBox">
+	<div class="pageBlock container" id="mangaBox">
+
+
 		<div class="leftContent">
+			<h1>BuyBook catalog</h1>
+
+	
+	<c:if test="${not empty filteredBy}">
+	<h2>	${filteredBy} </h2>
+	</c:if>
 
 			<!-- Show Books -->
-			<c:forEach items="${allBooks}" var="book" begin="${b}" end="${e}">
+			<div class="tiles row">
 
-				<div id=bookField>
-					Book: ${book.bookName} <br> <a
-						href="${contextPath}/book_catalogue/Book/${book.id}"><img
-						src="${contextPath}/resources/images/${book.imageId}"
-						id="book_cover" /></a> <br> Description: ${book.bookDescription}
-					<br> Release date: ${book.releaseDate} <br> genre:
-					${book.bookGenre} <a
-						href="${contextPath}/resources/html/bookInfo.html">test ajax</a>
-				</div>
-			</c:forEach>
+				<c:forEach items="${allBooks}" var="book" begin="${b}" end="${e}">
+
+					<div class="tile col-sm-6 ">
+						<div class="img">
+							<a href="${contextPath}/book_catalogue/Book/${book.id}"
+								class="non-hover"><img class="lazy"
+								src="${contextPath}/resources/images/${book.imageId}"
+								id="book_cover" style="display: inline;" title="cover"
+								alt="cover" /> </a>
+						</div>
+
+						<div class="tags"></div>
+
+						<div class="desc">
+							<div class="star-rate"></div>
+
+							<h3>
+								<a href="${contextPath}/book_catalogue/Book/${book.id}" title="${book.bookName}">${book.bookName}</a>
+							</h3>
+
+
+							<div class="tile-info">
+								<div hidepic="true" class="person-link">Author:
+									${book.bookAuthor}</div>
+								<br> ${book.releaseDate} <br>
+								<div class="element-link">${book.bookGenre}</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+				</c:forEach>
+			</div>
+
+			<br> <br>
+
 
 		</div>
 
-		<br> <br>
-
 		<div class="rightContent">
+		
+		<div id=addBook style="margin-right: 15%;">
+		<a href="${contextPath}/upload"> add new book </a>
+	</div>
+		
+		<!-- Select for maxResults   -->
+	<div id=maxResultsDiv>
+	Max books on page:
+		<select id=maxResults onchange="addMaxResultsParam()">
+			<option value="${maxResults}">${maxResults}</option>
+			<c:if test="${maxResults != 5}">
+				<option value="5">5</option>
+			</c:if>
+			<c:if test="${maxResults != 10}">
+				<option value="10">10</option>
+			</c:if>
+			<c:if test="${maxResults != 20}">
+				<option value="20">20</option>
+			</c:if>
+		</select>
+	</div>
+<br>
+
+<c:if test="${sessionScope.OrderedBy == 'OrderByName'}">
+				<c:set var = "SortedBy" value ="Sorted by A-Z"></c:set>
+			</c:if>
+			<c:if test="${sessionScope.OrderedBy == 'OrderByRelease_date'}">
+				<c:set var = "SortedBy" value ="Sorted by release date"></c:set>
+			</c:if>
+			<c:if test="${sessionScope.OrderedBy == 'OrderByRating'}">
+				<c:set var = "SortedBy" value ="Sorted by rating"></c:set>
+			</c:if>
+			
+			<c:if test="${empty sessionScope.OrderedBy}">
+				<c:set var = "SortedBy" value ="None"></c:set>
+			</c:if>
+
+	<!-- Select for OrderBy   -->
+	<div id=OrderByDiv>
+	Sort by:
+		<select id=OrderBy onchange="OrderBy()">
+			<option value="${sessionScope.OrderedBy}">${SortedBy}</option>
+			<c:if test="${sessionScope.OrderedBy != 'OrderByName'}">
+				<option value="OrderByName">Sort by A-Z</option>
+			</c:if>
+			<c:if test="${sessionScope.OrderedBy != 'OrderByRelease_date'}">
+				<option value="OrderByRelease_date">Sort by release date</option>
+			</c:if>
+			<c:if test="${sessionScope.OrderedBy != 'OrderByRating'}">
+				<option value="OrderByRating">Sort by rating</option>
+			</c:if>
+		</select>
+	</div>
+		
+		<br>
+		<br>
+		
 			<div class="genres">
 				<p>
 					FilterBy:
-					<button id="checkBox" type="button" onclick="checkFilter()">clear
+					<button id="checkBox" type="button" onclick="checkFilter()" style="margin-left:40%;">clear
 						filter</button>
 				</p>
 				<c:forEach items="${genreList}" var="genre">
@@ -201,12 +305,9 @@
 	<c:set var="results" value="${(fn:length(allBooks)/maxResults)+1}" />
 	<fmt:parseNumber var="pagesInTotal" integerOnly="true" type="number"
 		value="${results}" />
-	<br> pagesInTotal: ${pagesInTotal}
-	<br>
-
-
+	
 	<!-- Show pages -->
-
+<center>
 	<tfoot>
 		<tr>
 			<th colspan="2" style="text-align: center;"><span
@@ -241,18 +342,8 @@
 			</span></th>
 		</tr>
 	</tfoot>
-
-	<!--  offset=  "$" + "{((0 + maxResults)*val)-maxResults}" OMG WTF	
-	<a href="/?offset=60&amp;max=30" class="step">3</a>
-					<a href="/?offset=90&amp;max=30" class="step">4</a><a
-					href="/?offset=120&amp;max=30" class="step">5</a> <a
-					href="/?offset=150&amp;max=30" class="step">6</a> <a
-					href="/?offset=180&amp;max=30" class="step">7</a> <a
-					href="/?offset=210&amp;max=30" class="step">8</a> <a
-					href="/?offset=240&amp;max=30" class="step">9</a> <a
-					href="/?offset=270&amp;max=30" class="step">10</a> <a
-					href="/?offset=30&amp;max=30" class="nextLink">→</a> -->
-
+</center>
+<br>
 
 	<!-- Submit hidden form with value of book.id with image onClick(JavaScript)-->
 	<!--	<form:form method="POST" action="/BuyBook/MainPage/Book"

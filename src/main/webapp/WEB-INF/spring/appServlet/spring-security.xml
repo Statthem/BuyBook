@@ -9,7 +9,7 @@
 		<csrf disabled="true" />
 
 		<intercept-url pattern="/" access="permitAll()" />
-		<intercept-url pattern="/MainPage" access="permitAll()" />
+		<intercept-url pattern="/book_catalogue" access="permitAll()" />
 		<intercept-url pattern="/login" access="permitAll()" />
 		<intercept-url pattern="/logout" access="permitAll()" />
 		<intercept-url pattern="/registration" access="permitAll()" />

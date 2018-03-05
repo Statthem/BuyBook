@@ -13,6 +13,10 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -20,18 +24,39 @@
 		$("#idDateField").datepicker();
 	});
 </script>
+<style type="text/css">
+body{
+background-image: url("${contextPath}/resources/images/paper_texture.jpg");
+}
+
+table{
+margin-left:35%;
+
+
+}
+
+ td{ padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: white;
+    color: black;
+     padding: 8px;
+}
+</style>
 </head>
-<body>
+<body background="${contextPath}/resources/images/paper_texture.jpg">
 
 
-	<Center>Upload Page</Center>
+	<Center><h1>Upload Book</h1></Center>
 	<br>
 	<br>
 	
 			<c:if test="${not empty errorsList}">
+			<Center>
 				<c:forEach items="${errorsList}" var="error">
-					<p style="color: red;">${error}</p>
+					<p style="color: black; font-size: 18px; ">${error}</p>
 				</c:forEach>
+				</Center>
 			</c:if>
 			
 			<c:if test="${not empty genreList}">
@@ -55,7 +80,7 @@
 			</tr>
 
 			<tr>
-				<td><form:label path="bookName">Name:*</form:label></td>
+				<td>Name:*</td>
 				<td><form:input path="bookName"/></td>
 			</tr>
 
@@ -66,7 +91,7 @@
 			</tr>
 
 			<tr>
-				<td><form:label path="bookAuthor">Author:*</form:label></td>
+				<td>Author:*</td>
 				<td><form:input path="bookAuthor" /></td>
 			</tr>
 

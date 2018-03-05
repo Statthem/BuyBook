@@ -71,16 +71,22 @@ public class MainController {
 	@RequestMapping(value = "/book_catalogue/{OrderBy}", method = RequestMethod.GET)
 	public ModelAndView OrderBy(@PathVariable("OrderBy") String OrderBy, ModelAndView modelAndView,
 			HttpSession session) {
+		List<Book> allBooks;
 		
-		List<Book> allBooks = new ArrayList<>(bookService.getAllBooks());
-        Set<Book> sortedBooks = new HashSet<>(sort(OrderBy,allBooks));
+	if(session.getAttribute("filteredBooks") != null)
+			allBooks = new ArrayList<>((Set<Book>) session.getAttribute("filteredBooks"));
 		
-
-		session.setAttribute("sortedBooks", sortedBooks);
+		allBooks = new ArrayList<>(bookService.getAllBooks());
+		
+		
+		allBooks.forEach(book -> System.out.println(book.getReleaseDate()));
+        allBooks = (sort(OrderBy,allBooks));
+      
+		session.setAttribute("sortedBooks", allBooks);
 		session.setAttribute("OrderedBy", OrderBy);
 		
 		modelAndView.addObject("genreList",BookService.GENRES);
-		modelAndView.setViewName("MainPage");
+		modelAndView.setViewName("redirect:/book_catalogue");
 
 		return modelAndView;
 	}
@@ -94,13 +100,14 @@ public class MainController {
 		List<Book> allBooks = new ArrayList<>(bookService.getAllBooks());
 		if(genre.equals("None")) {
 			session.removeAttribute("filteredBooks");
+			session.removeAttribute("filteredBy");
 			return new ModelAndView("redirect:/book_catalogue");
 		}
 		
 		Set<Book> filteredBooks = new HashSet<Book>(filter(genre,allBooks));
 		
 		session.setAttribute("filteredBooks", filteredBooks);
-		session.setAttribute("FilteredBy", filterBy);
+		session.setAttribute("filteredBy", genre);
 
 		modelAndView.addObject("genreList",BookService.GENRES);
 		modelAndView.setViewName("MainPage");
@@ -165,6 +172,7 @@ public class MainController {
 	}
 	
 	private List<Book> sort(String OrderBy,List<Book> allBooks) {
+		
 		
 		if (OrderBy.equals("OrderByName"))
 			Collections.sort(allBooks, byNameComparator);
