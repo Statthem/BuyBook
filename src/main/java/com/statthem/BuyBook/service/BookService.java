@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.statthem.BuyBook.DAO.BookDAOImpl;
+import com.statthem.BuyBook.controller.bookcontroller.BookDownloadController;
 import com.statthem.BuyBook.model.Book;
 import com.statthem.BuyBook.path.FolderPaths;
 
 @Service
 public class BookService implements IBookService{
+	
+private static final Logger logger = Logger.getLogger(BookService.class);
 	
 @Autowired	
 private BookDAOImpl bookDAOImpl;
@@ -65,7 +68,7 @@ public Book getBookbyName(String bookName) {
 	return this.bookDAOImpl.getBookByName(bookName);
 }
 
-public FileSystemResource downloadBook(String bookName,Logger logger) {
+public FileSystemResource downloadBook(String bookName) {
 	String rootPath = System.getProperty("catalina.home");
 	File bookDir = new File(FolderPaths.BOOK_FOLDER.getPath());
     if(!bookName.contains("pdf"))

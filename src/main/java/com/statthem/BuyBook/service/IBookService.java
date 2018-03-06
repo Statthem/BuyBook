@@ -19,7 +19,7 @@ public interface IBookService {
 	
 	public Set<Book> getAllBooks();
 	
-	public FileSystemResource downloadBook(String bookName,Logger logger);
+	public FileSystemResource downloadBook(String bookName);
 	
 	public void modifyBook(Book b);
 

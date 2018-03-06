@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,145 +53,139 @@ public class MainController {
 
 	@Autowired
 	BookService bookService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@RequestMapping(value = "/book_catalogue", method = RequestMethod.GET)
-	public ModelAndView  getMainPage(ModelAndView modelAndView) {
+	public ModelAndView getMainPage(ModelAndView modelAndView) {
 
 		logger.info("in getMainPage method");
 
 		modelAndView.setViewName("MainPage");
 		modelAndView.addObject("allBooks", bookService.getAllBooks());
-		modelAndView.addObject("genreList",BookService.GENRES);
+		modelAndView.addObject("genreList", BookService.GENRES);
 		return modelAndView;
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/book_catalogue/{OrderBy}", method = RequestMethod.GET)
 	public ModelAndView OrderBy(@PathVariable("OrderBy") String OrderBy, ModelAndView modelAndView,
 			HttpSession session) {
 		List<Book> allBooks;
+
 		
-	if(session.getAttribute("filteredBooks") != null)
-			allBooks = new ArrayList<>((Set<Book>) session.getAttribute("filteredBooks"));
-		
+		if (session.getAttribute("filteredBooks") != null) {
+				System.err.println("filteredBooks != null");
+				allBooks = new ArrayList<>((Set<Book>) session.getAttribute("filteredBooks"));
+				if (allBooks.isEmpty() || allBooks == null) {System.err.println("filteredBooks null or empty");}
+		}else {
 		allBooks = new ArrayList<>(bookService.getAllBooks());
-		
-		
-		allBooks.forEach(book -> System.out.println(book.getReleaseDate()));
-        allBooks = (sort(OrderBy,allBooks));
-      
+		}
+		allBooks = (sort(OrderBy, allBooks));
+
 		session.setAttribute("sortedBooks", allBooks);
 		session.setAttribute("OrderedBy", OrderBy);
-		
-		modelAndView.addObject("genreList",BookService.GENRES);
+
+		session.setAttribute("genreList", BookService.GENRES);
 		modelAndView.setViewName("redirect:/book_catalogue");
 
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/book_catalogue/filter/{filterBy}", method = RequestMethod.GET)
 	public ModelAndView FilterBy(@PathVariable("filterBy") String filterBy, ModelAndView modelAndView,
 			HttpSession session) {
-		
-		 String genre = filterBy.substring(8);
-		 
+
+		String genre = filterBy.substring(8);
+
 		List<Book> allBooks = new ArrayList<>(bookService.getAllBooks());
-		if(genre.equals("None")) {
+
+		// off sorting
+		session.removeAttribute("sortedBooks");
+		session.removeAttribute("OrderedBy");
+
+		if (genre.equals("None")) {
 			session.removeAttribute("filteredBooks");
 			session.removeAttribute("filteredBy");
 			return new ModelAndView("redirect:/book_catalogue");
 		}
-		
-		Set<Book> filteredBooks = new HashSet<Book>(filter(genre,allBooks));
-		
+
+		Set<Book> filteredBooks = new HashSet<Book>(filter(genre, allBooks));
+
 		session.setAttribute("filteredBooks", filteredBooks);
 		session.setAttribute("filteredBy", genre);
 
-		modelAndView.addObject("genreList",BookService.GENRES);
-		modelAndView.setViewName("MainPage");
+		
+		modelAndView.setViewName("redirect:/book_catalogue");
 
 		return modelAndView;
 	}
-	
-	
+
 	@RequestMapping(value = "/book_catalogue/search", method = RequestMethod.POST)
-	
-	public ModelAndView searchBook(@RequestParam(value="bookName", required=true)  String bookName,
-			ModelAndView modelAndView,Model model,HttpSession session) {
-		
+
+	public ModelAndView searchBook(@RequestParam(value = "bookName", required = true) String bookName,
+			ModelAndView modelAndView, Model model, HttpSession session) {
+
 		bookName = bookName.trim();
 		Book book = bookService.getBookbyName(bookName);
-				if(book==null) {
-					model.addAttribute("bookNotFound",bookName);
-					return new ModelAndView("MainPage");
-				}
-       List<Book> singleBook = new ArrayList<>();
-       singleBook.add(book);
+		if (book == null) {
+			model.addAttribute("bookNotFound", bookName);
+			return new ModelAndView("MainPage");
+		}
+		List<Book> singleBook = new ArrayList<>();
+		singleBook.add(book);
 		session.setAttribute("searchedBook", singleBook);
 
-		
 		modelAndView.setViewName("MainPage");
 		return modelAndView;
 	}
-	
-	
-	
-   //copying files from backup folder to webapp/resources
+
+	// copying files from backup folder to webapp/resources
 	@PostConstruct
 	private void copyFiles() {
 		File imagesFrom = new File(FolderPaths.BACKUP_IMAGE_FOLDER.getPath());
 		File booksFrom = new File(FolderPaths.BACKUP_BOOK_FOLDER.getPath());
-		
-		
+
 		File imagesTo = new File(FolderPaths.IMAGE_FOLDER.getPath());
 		File booksTo = new File(FolderPaths.BOOK_FOLDER.getPath());
 
-		 try {
-		if (booksFrom.isDirectory()) {
-			FileUtils.copyDirectory(imagesFrom, imagesTo);
-		}
-		if (imagesFrom.isDirectory()) {
-			FileUtils.copyDirectory(booksFrom, booksTo);
-		}
-		 } catch (IOException e) {		
-				e.printStackTrace();
+		try {
+			if (booksFrom.isDirectory()) {
+				FileUtils.copyDirectory(imagesFrom, imagesTo);
 			}
+			if (imagesFrom.isDirectory()) {
+				FileUtils.copyDirectory(booksFrom, booksTo);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	private List<Book> filter(String genre,List<Book> allBooks) {
-	
-			List<Book> filteredBooks = new ArrayList<>();
-			
 
-			allBooks.stream().filter(book -> book.getBookGenre().equals(genre))
-            .forEach(book -> filteredBooks.add(book));			
-		
+	private List<Book> filter(String genre, List<Book> allBooks) {
+
+		List<Book> filteredBooks = new ArrayList<>();
+
+		allBooks.stream().filter(book -> book.getBookGenre().equals(genre)).forEach(book -> filteredBooks.add(book));
+
 		return filteredBooks;
 	}
-	
-	private List<Book> sort(String OrderBy,List<Book> allBooks) {
-		
-		
+
+	private List<Book> sort(String OrderBy, List<Book> allBooks) {
+
 		if (OrderBy.equals("OrderByName"))
 			Collections.sort(allBooks, byNameComparator);
 		if (OrderBy.equals("OrderByRelease_date"))
 			Collections.sort(allBooks, byDateComparator);
 		if (OrderBy.equals("OrderByRating"))
 			Collections.sort(allBooks, byRatingComparator);
-		
+
 		return allBooks;
 	}
 
-	private Map<String, Book> toMap(Set<Book> set) {
-		Map<String, Book> map = new HashMap<>();
-
-		set.forEach((t) -> map.put(((com.statthem.BuyBook.model.Book) t).getBookName(), t));
-		return map;
-	}
-
+//Book Comparators
+	
 	private Comparator<Book> byNameComparator = new Comparator<Book>() {
 		@Override
 		public int compare(Book book1, Book book2) {
@@ -214,5 +209,5 @@ public class MainController {
 			return book1.getReleaseDate().compareTo(book2.getReleaseDate());
 		}
 	};
-	
+
 }

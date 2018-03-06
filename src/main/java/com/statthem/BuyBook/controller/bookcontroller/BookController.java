@@ -26,24 +26,13 @@ public class BookController {
 	
 	private static final Logger logger = Logger.getLogger(BookController.class);
 	
-//	@RequestMapping(value = "/book_catalogue/Book/{BookId}", method = RequestMethod.GET)
-//	public ModelAndView showBookInfo(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
-//
-//		long id = Long.valueOf(BookId);
-//
-//		Book book = bookService.getBook(id);
-//
-//		modelAndview.setViewName("BookInfo");
-//		modelAndview.addObject("CurrentBook", book);
-//
-//		return modelAndview;
-//	}
 	
-	@RequestMapping(value = "/book_catalogue/Book/{BookId}", method = RequestMethod.GET)
-	public ModelAndView showBookInfo(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
-       
-		return new ModelAndView("forward:/resources/html/bookInfo.html","id",BookId);
+	@RequestMapping(value = "/book_catalogue/Book/{bookName}", method = RequestMethod.GET)
+	public ModelAndView showBookInfo(@PathVariable("bookName") String bookName, ModelAndView modelAndview) {
+		
+		return new ModelAndView("forward:/resources/html/bookInfo.html");
 	}
+	
 	
 	@RequestMapping(value = "/addToFavourite/{BookId}", method = RequestMethod.GET)
 	public ModelAndView addBookToFavourite(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
@@ -61,18 +50,14 @@ public class BookController {
        
 		userService.addBookToFavourite(currentUser, book);
 
-		modelAndview.setViewName("redirect:/book_catalogue/Book/" + book.getId());
+		modelAndview.setViewName("redirect:/book_catalogue/Book/" + book.getBookName());
 		modelAndview.addObject("currentUser", currentUser);
-		modelAndview.addObject("CurrentBook", book);
+		
 
 		return modelAndview;
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test() {
-
-		return "test";
-	}
+	
 
 
 }

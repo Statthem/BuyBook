@@ -3,26 +3,42 @@
 <head>
 <title>Book Info</title>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css"
+	href="/BuyBook/resources/css/bookInfo.css">
+
 </head>
 <body>
-	<center>Book Info</center>
-
-	title:
 	<h1 id="title"></h1>
 	<hr>
-	<img src="/resources/images/${book.imageId}"
-		id="book_cover" name="book_cover" /> Author:
+	
+<div class="post-container">                
+    <div class="post-thumb"><img src="/resources/images/${book.imageId}"
+		id="book_cover" name="book_cover" /></div>
+    <div class="post-content">
+        <h3 id="Author"></h3>
+        <h4 id="Genre"></h4>
+        <h4 id="ReleaseDate"></h4>
+        <br>
+        Description
+        <p id="text"></p>
+   </div>
+</div>
+	
 	<div id="Author"></div>
 
-	<div id="text"></div>
+	
+<br>
 
+<a href="/BuyBook/addToFavourite/${CurrentBook.id}" id="favourite"> addToFavorite</a>
+<a href="/BuyBook/downloadBook/${CurrentBook.text}" id="download" onclick="addToFavorite()"> download</a>
+<a href="(BETA!!!)"> readOnline(Beta)</a>
 
-<a href="${contextPath}/addToFavourite/${CurrentBook.id}"> addToFavorite</a>
-<a href="${contextPath}/downloadBook/${CurrentBook.text}"> download</a>
-<a href=""> readOnline(Beta)</a>
-
-
-
+<script type="text/javascript">
+function addToFavorite() {
+				alert(book added to favorite successful);
+			}
+</script>
 
 	<script src="/BuyBook/resources/js/ajax.js"></script>
 

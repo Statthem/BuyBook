@@ -16,9 +16,6 @@ function OrderBy() {
 	}
 }
 function checkFilter() {
-	//if (document.getElementById("checkBox").checked == true) {
 		window.location
 				.replace("/BuyBook/book_catalogue/filter/filterByNone");
-		//document.getElementById("checkBox").checked = false;
-//	}
 }

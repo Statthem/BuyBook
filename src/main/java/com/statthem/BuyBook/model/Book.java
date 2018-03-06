@@ -71,7 +71,8 @@ public class Book implements Serializable{
 	@ManyToMany(mappedBy = "favoriteBooks",fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	private Set<User> usersInFavourite;
 	
-	
+	@Transient
+	private String HtmlDate;
 	
 	@Override
 	public String toString() {
@@ -219,6 +220,16 @@ public class Book implements Serializable{
 
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
+	}
+
+
+	public String getHtmlDate() {
+		return HtmlDate;
+	}
+
+
+	public void setHtmlDate(String htmlDate) {
+		HtmlDate = htmlDate;
 	}
 	
 

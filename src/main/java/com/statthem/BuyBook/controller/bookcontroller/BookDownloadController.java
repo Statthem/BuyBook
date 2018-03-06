@@ -22,8 +22,7 @@ public class BookDownloadController {
 	@RequestMapping(value = "/downloadBook/{bookName}", method = RequestMethod.GET)
 	@ResponseBody
 	public FileSystemResource getBook(@PathVariable("bookName") String bookName) {
-		logger.info("in downloadbook");
-		FileSystemResource bookAsResource = bookService.downloadBook(bookName,logger);
+		FileSystemResource bookAsResource = bookService.downloadBook(bookName);
 		return bookAsResource;
 	}
 

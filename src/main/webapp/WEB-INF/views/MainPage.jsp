@@ -6,91 +6,90 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <!Doctype>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Book catalog</title>
+<title>BuyBook</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css"
 	href="${contextPath}/resources/css/MainPage.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <script src="${contextPath}/resources/js/book_catalogue.js"></script>
 </head>
 <body>
 
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <i class="fa fa-bars fa-lg"></i>
-      </button>
-      
-      
-    <div id="navbar" class="navbar-collapse collapse">
-       <form:form  action="${contextPath}/book_catalogue/search"
-				method="POST" class="navbar-form navbar-right">
-  <div class="fast-search input-group">                                    
-    <select id="q" placeholder="book title" class="form-control head-suggestion selectized" maxlength="50" tabindex="-1" style="display: none;"><option value="" selected="selected"></option></select><div class="selectize-control form-control head-suggestion single plugin-preserve_on_blur"><div class="selectize-input items not-full"><input type="text" name="bookName" autocomplete="off" tabindex="" placeholder="book title" name="q" type="text"></div></div>
-    <span class="input-group-btn"> 
-    
-      <button type="submit" title="Search" class="btn btn-default">
-        <span class="fa fa-search"></span>
-      </button>
-    </span>
-  </div>
-</form:form>
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#navbar">
+				<i class="fa fa-bars fa-lg"></i>
+			</button>
+
+
+			<div id="navbar" class="navbar-collapse collapse">
+				<form:form action="${contextPath}/book_catalogue/search"
+					method="POST" class="navbar-form navbar-right">
+					<div class="fast-search input-group">
+						<select id="q" placeholder="book title"
+							class="form-control head-suggestion selectized" maxlength="50"
+							tabindex="-1" style="display: none;"><option value=""
+								selected="selected"></option></select>
+						<div
+							class="selectize-control form-control head-suggestion single plugin-preserve_on_blur">
+							<div class="selectize-input items not-full">
+								<input type="text" name="bookName" autocomplete="off"
+									tabindex="" placeholder="book title" name="q" type="text">
+							</div>
+						</div>
+						<span class="input-group-btn">
+
+							<button type="submit" title="Search" class="btn btn-default">
+								<span class="fa fa-search"></span>
+							</button>
+						</span>
+					</div>
+				</form:form>
 
 
 
-      <ul id="accountMenu" class="nav navbar-nav navbar-right">
-        
+				<ul id="accountMenu" class="nav navbar-nav navbar-right">
 
 
 
 
-  <li><a class="strong" href="/BuyBook/registration">Register</a></li>
-  <li><a class="strong" href="/BuyBook/login">Login</a></li>
-  
- <sec:authorize access="isAuthenticated()"> 
-  <li><a  href="/BuyBook/logout">Log Out</a></li>
-	</sec:authorize>
-	
-      </ul>
-      
-    
-</div>
+
+
+					<sec:authorize access="!hasRole('ROLE_USER')">
+						<li><a class="strong" href="/BuyBook/registration">Register</a></li>
+						<li><a class="strong" href="/BuyBook/login">Login</a></li>
+					</sec:authorize>
 
 
 
-      <ul class="hidden-lg hidden-md hidden-sm hidden-xs visible-xxs-inline list-unstyled">
-        <li>
-          <a href="http://readmanga.me" title="Читай мангу" rel="nofollow">Read&nbsp;Manga</a>
+<li><a class="strong" href="/BuyBook/userInfo">My favorite</a></li>
+					<sec:authorize access="isAuthenticated()">
+						<li><a class="strong" href="/BuyBook/logout">Log Out</a></li>
+					</sec:authorize>
 
-    <a href="/internal/redirect?type=ad&amp;id=%2F" title="Читай взрослую мангу" class="hidden-xs">Mint&nbsp;Manga</a>
+				</ul>
 
 
-    <a href="http://doramatv.ru" title="Смотри и обсуждай Дораму онлайн" rel="nofollow">Dorama&nbsp;TV</a>
+			</div>
 
-<a href="http://librebook.me" title="Читай книги онлайн" rel="nofollow">Libre&nbsp;Book</a>
-<a href="http://findanime.me" title="Смотри и обсуждай аниме онлайн" rel="nofollow">Find&nbsp;Anime</a>
-<a href="http://selfmanga.ru" title="Создавай и читай мангу" rel="nofollow">Self&nbsp;Manga</a>
-
-<a class="hidden-xs" href="http://selflib.me" title="Создавай и читай самиздат" rel="nofollow">Self&nbsp;Lib</a>
-
-<a href="https://grouple.co" title="Закладки, активности, общение" rel="nofollow">GroupLe</a>
-
-        </li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div>
+		</div>
+		<!--/.nav-collapse -->
+	</div>
 
 
 
@@ -169,10 +168,10 @@
 		<div class="leftContent">
 			<h1>BuyBook catalog</h1>
 
-	
-	<c:if test="${not empty filteredBy}">
-	<h2>	${filteredBy} </h2>
-	</c:if>
+
+			<c:if test="${not empty filteredBy}">
+				<h2>${filteredBy}</h2>
+			</c:if>
 
 			<!-- Show Books -->
 			<div class="tiles row">
@@ -181,7 +180,7 @@
 
 					<div class="tile col-sm-6 ">
 						<div class="img">
-							<a href="${contextPath}/book_catalogue/Book/${book.id}"
+							<a href="${contextPath}/book_catalogue/Book/${book.bookName}"
 								class="non-hover"><img class="lazy"
 								src="${contextPath}/resources/images/${book.imageId}"
 								id="book_cover" style="display: inline;" title="cover"
@@ -194,7 +193,8 @@
 							<div class="star-rate"></div>
 
 							<h3>
-								<a href="${contextPath}/book_catalogue/Book/${book.id}" title="${book.bookName}">${book.bookName}</a>
+								<a href="${contextPath}/book_catalogue/Book/${book.bookName}"
+									title="${book.bookName}">${book.bookName}</a>
 							</h3>
 
 
@@ -217,68 +217,66 @@
 		</div>
 
 		<div class="rightContent">
-		
-		<div id=addBook style="margin-right: 15%;">
-		<a href="${contextPath}/upload"> add new book </a>
-	</div>
-		
-		<!-- Select for maxResults   -->
-	<div id=maxResultsDiv>
-	Max books on page:
-		<select id=maxResults onchange="addMaxResultsParam()">
-			<option value="${maxResults}">${maxResults}</option>
-			<c:if test="${maxResults != 5}">
-				<option value="5">5</option>
-			</c:if>
-			<c:if test="${maxResults != 10}">
-				<option value="10">10</option>
-			</c:if>
-			<c:if test="${maxResults != 20}">
-				<option value="20">20</option>
-			</c:if>
-		</select>
-	</div>
-<br>
 
-<c:if test="${sessionScope.OrderedBy == 'OrderByName'}">
-				<c:set var = "SortedBy" value ="Sorted by A-Z"></c:set>
+			<div id=addBook style="margin-right: 15%;">
+				<a href="${contextPath}/upload"> add new book </a>
+			</div>
+
+			<!-- Select for maxResults   -->
+			<div id=maxResultsDiv>
+				Max books on page: <select id=maxResults
+					onchange="addMaxResultsParam()">
+					<option value="${maxResults}">${maxResults}</option>
+					<c:if test="${maxResults != 5}">
+						<option value="5">5</option>
+					</c:if>
+					<c:if test="${maxResults != 10}">
+						<option value="10">10</option>
+					</c:if>
+					<c:if test="${maxResults != 20}">
+						<option value="20">20</option>
+					</c:if>
+				</select>
+			</div>
+			<br>
+
+			<c:if test="${sessionScope.OrderedBy == 'OrderByName'}">
+				<c:set var="SortedBy" value="Sorted by A-Z"></c:set>
 			</c:if>
 			<c:if test="${sessionScope.OrderedBy == 'OrderByRelease_date'}">
-				<c:set var = "SortedBy" value ="Sorted by release date"></c:set>
+				<c:set var="SortedBy" value="Sorted by release date"></c:set>
 			</c:if>
 			<c:if test="${sessionScope.OrderedBy == 'OrderByRating'}">
-				<c:set var = "SortedBy" value ="Sorted by rating"></c:set>
-			</c:if>
-			
-			<c:if test="${empty sessionScope.OrderedBy}">
-				<c:set var = "SortedBy" value ="None"></c:set>
+				<c:set var="SortedBy" value="Sorted by rating"></c:set>
 			</c:if>
 
-	<!-- Select for OrderBy   -->
-	<div id=OrderByDiv>
-	Sort by:
-		<select id=OrderBy onchange="OrderBy()">
-			<option value="${sessionScope.OrderedBy}">${SortedBy}</option>
-			<c:if test="${sessionScope.OrderedBy != 'OrderByName'}">
-				<option value="OrderByName">Sort by A-Z</option>
+			<c:if test="${empty sessionScope.OrderedBy}">
+				<c:set var="SortedBy" value="None"></c:set>
 			</c:if>
-			<c:if test="${sessionScope.OrderedBy != 'OrderByRelease_date'}">
-				<option value="OrderByRelease_date">Sort by release date</option>
-			</c:if>
-			<c:if test="${sessionScope.OrderedBy != 'OrderByRating'}">
-				<option value="OrderByRating">Sort by rating</option>
-			</c:if>
-		</select>
-	</div>
-		
-		<br>
-		<br>
-		
+
+			<!-- Select for OrderBy   -->
+			<div id=OrderByDiv>
+				Sort by: <select id=OrderBy onchange="OrderBy()">
+					<option value="${sessionScope.OrderedBy}">${SortedBy}</option>
+					<c:if test="${sessionScope.OrderedBy != 'OrderByName'}">
+						<option value="OrderByName">Sort by A-Z</option>
+					</c:if>
+					<c:if test="${sessionScope.OrderedBy != 'OrderByRelease_date'}">
+						<option value="OrderByRelease_date">Sort by release date</option>
+					</c:if>
+					<c:if test="${sessionScope.OrderedBy != 'OrderByRating'}">
+						<option value="OrderByRating">Sort by rating</option>
+					</c:if>
+				</select>
+			</div>
+
+			<br> <br>
+
 			<div class="genres">
 				<p>
 					FilterBy:
-					<button id="checkBox" type="button" onclick="checkFilter()" style="margin-left:40%;">clear
-						filter</button>
+					<button id="checkBox" type="button" onclick="checkFilter()"
+						style="margin-left: 45%;">clear filter</button>
 				</p>
 				<c:forEach items="${genreList}" var="genre">
 					<div id=genre>
@@ -305,45 +303,45 @@
 	<c:set var="results" value="${(fn:length(allBooks)/maxResults)+1}" />
 	<fmt:parseNumber var="pagesInTotal" integerOnly="true" type="number"
 		value="${results}" />
-	
+
 	<!-- Show pages -->
-<center>
-	<tfoot>
-		<tr>
-			<th colspan="2" style="text-align: center;"><span
-				class="pagination"> <c:forEach begin="1"
-						end="${pagesInTotal}" var="val">
+	<center>
+		<tfoot>
+			<tr>
+				<th colspan="2" style="text-align: center;"><span
+					class="pagination"> <c:forEach begin="1"
+							end="${pagesInTotal}" var="val">
 
-						<c:choose>
-							<c:when test="${val == pageNumber}">
-								<span class="currentStep">${pageNumber}</span>
-							</c:when>
-							<c:otherwise>
+							<c:choose>
+								<c:when test="${val == pageNumber}">
+									<span class="currentStep">${pageNumber}</span>
+								</c:when>
+								<c:otherwise>
 
-								<!-- Set pages url.params -->
-								<c:if test="${empty param.OrderBy}">
-									<a
-										href="${contextPath}/book_catalogue?page=${val}&offset=${((0 + maxResults)*val)-maxResults}&maxResults=${maxResults}"
-										class="step">${val}</a>
+									<!-- Set pages url.params -->
+									<c:if test="${empty param.OrderBy}">
+										<a
+											href="${contextPath}/book_catalogue?page=${val}&offset=${((0 + maxResults)*val)-maxResults}&maxResults=${maxResults}"
+											class="step">${val}</a>
 
-								</c:if>
+									</c:if>
 
-								<c:if test="${not empty param.OrderBy}">
-									<a
-										href="${contextPath}/book_catalogue?page=${val}&offset=${((0 + maxResults)*val)-maxResults}&maxResults=${maxResults}&OrderBy=${param.OrderBy}"
-										class="step">${val}</a>
+									<c:if test="${not empty param.OrderBy}">
+										<a
+											href="${contextPath}/book_catalogue?page=${val}&offset=${((0 + maxResults)*val)-maxResults}&maxResults=${maxResults}&OrderBy=${param.OrderBy}"
+											class="step">${val}</a>
 
-								</c:if>
-							</c:otherwise>
-						</c:choose>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 
-					</c:forEach>
+						</c:forEach>
 
-			</span></th>
-		</tr>
-	</tfoot>
-</center>
-<br>
+				</span></th>
+			</tr>
+		</tfoot>
+	</center>
+	<br>
 
 	<!-- Submit hidden form with value of book.id with image onClick(JavaScript)-->
 	<!--	<form:form method="POST" action="/BuyBook/MainPage/Book"

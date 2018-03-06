@@ -18,15 +18,35 @@ public class RestBookController {
 	@Autowired
 	BookService bookService;
 	
-	  @RequestMapping(value = "getBook/{bookId}", method = RequestMethod.GET,
+//	  @RequestMapping(value = "getBook/{bookId}", method = RequestMethod.GET,
+//	            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	    public ResponseEntity<Book> getBook(@PathVariable("bookId") Long bookId) {
+//	        if (bookId == null) {
+//	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//	        }
+//
+//	        Book book = bookService.getBook(bookId);
+//            book.setUsersInFavourite(null);
+//	        
+//	        if (book == null) 
+//	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//	        
+//
+//	        return new ResponseEntity<>(book, HttpStatus.OK);
+//
+//	}
+//	  
+	  
+	  @RequestMapping(value = "getBook/{bookName}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	    public ResponseEntity<Book> getBook(@PathVariable("bookId") Long bookId) {
-	        if (bookId == null) {
+	    public ResponseEntity<Book> getBook(@PathVariable("bookName") String bookName) {
+	        if (bookName == null) {
 	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	        }
 
-	        Book book = bookService.getBook(bookId);
-            book.setUsersInFavourite(null);
+	        Book book = bookService.getBookbyName(bookName);
+          book.setUsersInFavourite(null);
+          book.setHtmlDate(book.getReleaseDate().toString());
 	        
 	        if (book == null) 
 	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -35,4 +55,7 @@ public class RestBookController {
 	        return new ResponseEntity<>(book, HttpStatus.OK);
 
 	}
+	  
+	  
+	
 }
