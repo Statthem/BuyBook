@@ -77,7 +77,7 @@
 
 
 
-<li><a class="strong" href="/BuyBook/userInfo">My favorite</a></li>
+					<li><a class="strong" href="/BuyBook/userInfo">My favorite</a></li>
 					<sec:authorize access="isAuthenticated()">
 						<li><a class="strong" href="/BuyBook/logout">Log Out</a></li>
 					</sec:authorize>
@@ -138,6 +138,17 @@
 	<c:if test="${not empty sessionScope.sortedBooks}">
 		<c:set var="allBooks" value="${sessionScope.sortedBooks}" />
 	</c:if>
+		
+	<c:if test="${sessionScope.OrderedBy == 'OrderByName'}">
+				<c:set var="SortedBy" value=" A-Z"></c:set>
+			</c:if>
+			<c:if test="${sessionScope.OrderedBy == 'OrderByRelease_date'}">
+				<c:set var="SortedBy" value=" release date"></c:set>
+			</c:if>
+			<c:if test="${sessionScope.OrderedBy == 'OrderByRating'}">
+				<c:set var="SortedBy" value=" rating"></c:set>
+			</c:if>
+	
 	<!-- check if filtered -->
 	<c:if test="${not empty filteredBooks}">
 		<c:set var="allBooks" value="${filteredBooks}" />
@@ -171,6 +182,10 @@
 
 			<c:if test="${not empty filteredBy}">
 				<h2>${filteredBy}</h2>
+			</c:if>
+
+			<c:if test="${not empty OrderedBy}">
+				<h2>Sorted by ${SortedBy}</h2>
 			</c:if>
 
 			<!-- Show Books -->
@@ -241,13 +256,13 @@
 			<br>
 
 			<c:if test="${sessionScope.OrderedBy == 'OrderByName'}">
-				<c:set var="SortedBy" value="Sorted by A-Z"></c:set>
+				<c:set var="SortedBy" value=" A-Z"></c:set>
 			</c:if>
 			<c:if test="${sessionScope.OrderedBy == 'OrderByRelease_date'}">
-				<c:set var="SortedBy" value="Sorted by release date"></c:set>
+				<c:set var="SortedBy" value=" release date"></c:set>
 			</c:if>
 			<c:if test="${sessionScope.OrderedBy == 'OrderByRating'}">
-				<c:set var="SortedBy" value="Sorted by rating"></c:set>
+				<c:set var="SortedBy" value=" rating"></c:set>
 			</c:if>
 
 			<c:if test="${empty sessionScope.OrderedBy}">

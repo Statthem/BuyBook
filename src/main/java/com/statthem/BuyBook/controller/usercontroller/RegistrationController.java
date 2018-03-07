@@ -31,7 +31,7 @@ public class RegistrationController {
 
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String getRegistration(Model model) {
+	public String toRegistrationPage(Model model) {
 
 		User user = new User();
 		model.addAttribute("user", user);
@@ -46,7 +46,6 @@ public class RegistrationController {
 		logger.debug("error Count " + result.getErrorCount());
 
 		List<String> errorsList = new ArrayList<>();
-
 		result.getAllErrors().forEach((error) -> errorsList.add((error.getDefaultMessage())));
 
 		User registered = new User();

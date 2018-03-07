@@ -78,7 +78,7 @@ public FileSystemResource downloadBook(String bookName) {
 	if(book.exists()) {
 	FileSystemResource fileSystemResource = new FileSystemResource(book);
 	
-	logger.info("book downloaded successfull");
+	logger.info("book received successfull");
 	
 	return fileSystemResource;
 	}else

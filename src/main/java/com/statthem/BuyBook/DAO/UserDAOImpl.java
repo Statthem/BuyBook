@@ -36,20 +36,20 @@ public class UserDAOImpl implements UserDAO {
 		Session session = this.sessionFactory.getCurrentSession();
 		user.setRoleId(1);
 		session.persist(user);
-		logger.info("new user registered succesfully");
+		logger.info("new user registered successfuly");
 		return user;
 	}
 
 	public void deleteUser(User user) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.delete(user);
-		logger.info("user deleted succesfully");
+		logger.info("user deleted successfuly");
 	}
 
 	public void modifyUser(User user) {
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(user);
-		logger.info("user modified succesfully");
+		logger.info("user modified successfuly");
 
 	}
 	
@@ -68,12 +68,8 @@ public class UserDAOImpl implements UserDAO {
 		Query query = session.createQuery("Select u from User u where u.id =:id");
 		query.setParameter("id", id);
 		user = (User) query.uniqueResult();
-
-		if (Objects.nonNull(user))
-			logger.info("Select user succesfuly");
-
+			
 		return user;
-
 	}
 
 	
@@ -85,9 +81,6 @@ public class UserDAOImpl implements UserDAO {
 		Query query = session.createQuery("Select u from User u where u.userEmail =:email");
 		query.setParameter("email", email);
 		user = (User) query.uniqueResult();
-
-		if (Objects.nonNull(user))
-			logger.info("equal user email");
 
 		return user;
 	}

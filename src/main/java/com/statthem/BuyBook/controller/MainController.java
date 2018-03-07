@@ -60,8 +60,6 @@ public class MainController {
 	@RequestMapping(value = "/book_catalogue", method = RequestMethod.GET)
 	public ModelAndView getMainPage(ModelAndView modelAndView) {
 
-		logger.info("in getMainPage method");
-
 		modelAndView.setViewName("MainPage");
 		modelAndView.addObject("allBooks", bookService.getAllBooks());
 		modelAndView.addObject("genreList", BookService.GENRES);
@@ -75,23 +73,29 @@ public class MainController {
 			HttpSession session) {
 		List<Book> allBooks;
 
-		
 		if (session.getAttribute("filteredBooks") != null) {
-				System.err.println("filteredBooks != null");
-				allBooks = new ArrayList<>((Set<Book>) session.getAttribute("filteredBooks"));
-				if (allBooks.isEmpty() || allBooks == null) {System.err.println("filteredBooks null or empty");}
-		}else {
-		allBooks = new ArrayList<>(bookService.getAllBooks());
+			
+			allBooks = new ArrayList<>((List<Book>) session.getAttribute("filteredBooks"));
+			allBooks = (sort(OrderBy, allBooks));
+			
+			session.setAttribute("filteredBooks", allBooks);
+			session.setAttribute("OrderedBy", OrderBy);
+
+			modelAndView.setViewName("redirect:/book_catalogue");
+
+			return modelAndView;
+		} else {
+			
+			allBooks = new ArrayList<>(bookService.getAllBooks());
+			allBooks = (sort(OrderBy, allBooks));
+
+			session.setAttribute("sortedBooks", allBooks);
+			session.setAttribute("OrderedBy", OrderBy);
+
+			modelAndView.setViewName("redirect:/book_catalogue");
+
+			return modelAndView;
 		}
-		allBooks = (sort(OrderBy, allBooks));
-
-		session.setAttribute("sortedBooks", allBooks);
-		session.setAttribute("OrderedBy", OrderBy);
-
-		session.setAttribute("genreList", BookService.GENRES);
-		modelAndView.setViewName("redirect:/book_catalogue");
-
-		return modelAndView;
 	}
 
 	@RequestMapping(value = "/book_catalogue/filter/{filterBy}", method = RequestMethod.GET)
@@ -112,12 +116,11 @@ public class MainController {
 			return new ModelAndView("redirect:/book_catalogue");
 		}
 
-		Set<Book> filteredBooks = new HashSet<Book>(filter(genre, allBooks));
+		List<Book> filteredBooks = new ArrayList<Book>(filter(genre, allBooks));
 
 		session.setAttribute("filteredBooks", filteredBooks);
 		session.setAttribute("filteredBy", genre);
 
-		
 		modelAndView.setViewName("redirect:/book_catalogue");
 
 		return modelAndView;
@@ -184,8 +187,8 @@ public class MainController {
 		return allBooks;
 	}
 
-//Book Comparators
-	
+	// Book Comparators
+
 	private Comparator<Book> byNameComparator = new Comparator<Book>() {
 		@Override
 		public int compare(Book book1, Book book2) {

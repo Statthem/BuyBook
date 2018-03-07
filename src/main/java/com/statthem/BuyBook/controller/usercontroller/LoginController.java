@@ -24,12 +24,10 @@ public class LoginController {
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView loginPage(ModelAndView model) {
+	public ModelAndView tologinPage(ModelAndView modelAndView) {
 
-		
-
-		model.setViewName("LoginPage");
-		return model;
+		modelAndView.setViewName("LoginPage");
+		return modelAndView;
 	}
 	
 	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
@@ -39,16 +37,5 @@ public class LoginController {
 	        return new RedirectView("/BuyBook/book_catalogue");
 	}
 	
-	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	public ModelAndView UserInfo(ModelAndView model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		
-		User currentUser =  userService.getUserByEmail(currentPrincipalName);
-
-		model.addObject("currentUser", currentUser);
-		model.setViewName("UserInfo");
-		return model;
-	}
-
+	
 }

@@ -36,24 +36,24 @@ public class BookController {
 	
 	@RequestMapping(value = "/addToFavourite/{BookId}", method = RequestMethod.GET)
 	public ModelAndView addBookToFavourite(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
-		  System.out.println("test");
-		logger.info("in add to Favourite");
+		
 		long book_id = Long.valueOf(BookId);
 
 		Book book = bookService.getBook(book_id);
 		
+		//get authenticated user
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		
 		User currentUser =  userService.getUserByEmail(currentPrincipalName);
         currentUser.setMatchingPassword(currentUser.getUserPassword());
-       
+        //
+        
 		userService.addBookToFavourite(currentUser, book);
 
-		modelAndview.setViewName("redirect:/book_catalogue/Book/" + book.getBookName());
 		modelAndview.addObject("currentUser", currentUser);
+		modelAndview.setViewName("redirect:/book_catalogue/Book/" + book.getBookName());
 		
-
 		return modelAndview;
 	}
 	

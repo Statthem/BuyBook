@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-
+<b:import resource="database-props.xml"/>
 	<http use-expressions="true">
 		<csrf disabled="true" />
 
@@ -18,7 +18,7 @@
 			access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<intercept-url pattern="/addToFavourite"
 			access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
-			<intercept-url pattern="/addToFavourite/{BookId}"
+		<intercept-url pattern="/addToFavourite/{BookId}"
 			access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<intercept-url pattern="/adminPage" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/other/**" access="isAuthenticated()" />
@@ -48,17 +48,6 @@
 
 		</authentication-provider>
 	</authentication-manager>
-
-
-	<b:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<b:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<b:property name="url" value="jdbc:mysql://localhost:3306/buybookdb" />
-		<b:property name="username" value="root" />
-		<b:property name="password" value="root" />
-	</b:bean>
-
-
 
 </b:beans>
 

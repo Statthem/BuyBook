@@ -61,7 +61,8 @@ public class BookUploadController {
 	 * Upload multiple file using Spring Controller
 	 */
 	@RequestMapping(value = "/uploadBook", method = RequestMethod.POST)
-	public ModelAndView uploadMultipleFileHandler(@ModelAttribute("Book") @Valid Book book,BindingResult result, Model model,
+	public ModelAndView uploadMultipleFileHandler(@ModelAttribute("Book") @Valid Book book,BindingResult result,
+			ModelAndView modelAndView,
 			@RequestParam("releaseDate") String releaseDate,
 			@RequestParam("file") MultipartFile[] files) {
 
@@ -76,9 +77,18 @@ public class BookUploadController {
 
 
 		// Creating directories to store files
+		
+		//backup directories in TomCat folder
 		File backUpImageDir = new File(FolderPaths.BACKUP_IMAGE_FOLDER.getPath());
 		File backUpBookDir = new File(FolderPaths.BACKUP_BOOK_FOLDER.getPath());
+		
+		if (!backUpImageDir.exists())
+			backUpImageDir.mkdirs();
 
+		if (!backUpBookDir.exists())
+			backUpBookDir.mkdirs();
+
+		//main directories in /resources/ folder
 		File imageDir = new File(FolderPaths.IMAGE_FOLDER.getPath());
 		File bookDir = new File(FolderPaths.BOOK_FOLDER.getPath());
 
@@ -102,12 +112,15 @@ public class BookUploadController {
 
 				// Create 2 files on server
 				if (extension.contains("jpg")) {
+					
 					//main file
 					File serverFile = new File(imageDir.getAbsolutePath() + File.separator + name);
 					//backUp file
 					File backUpServerFile = new File(backUpImageDir.getAbsolutePath() + File.separator + name);
 
+					//main stream
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+					//backUp stream
 					BufferedOutputStream backUpStream = new BufferedOutputStream(new FileOutputStream(backUpServerFile));
 
 					book.setImageId(name);
@@ -118,10 +131,10 @@ public class BookUploadController {
 					backUpStream.close();
 
 					logger.info("Server File Location=" + serverFile.getAbsolutePath());
-
 				}
 
 				if (extension.contains("pdf")) {
+					
 					File serverFile = new File(bookDir.getAbsolutePath() + File.separator + name);
 					File backUpServerFile = new File(backUpBookDir.getAbsolutePath() + File.separator + name);
 
@@ -140,18 +153,18 @@ public class BookUploadController {
 				}
 
 			} catch (Exception e) {
-				logger.debug("You failed to upload " + name + " => " + e.getMessage());
+				logger.debug("failed to upload " + name + " => " + e.getMessage());
 			}
 
 
 		}
 
-		// adding book to data base
+		// adding book to Data Base
 		bookService.addBook(book);
 		
-		ModelAndView  modelAndView  =  new ModelAndView();
-		modelAndView.setViewName("MainPage");
-		model.addAttribute("newBook",book.getBookName());
+	
+		modelAndView.getModel().put("newBook",book.getBookName());
+		modelAndView.setViewName("redirect:/book_catalogue");
 		return modelAndView;
 	}
 	
@@ -189,5 +202,6 @@ public class BookUploadController {
 		
 	}
 
+	
 	
 }

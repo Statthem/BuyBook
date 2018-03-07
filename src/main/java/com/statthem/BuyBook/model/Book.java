@@ -21,8 +21,12 @@ import javax.swing.text.html.ImageView;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name="Books")
+@Getter @Setter
 public class Book implements Serializable{
 	
 	/**
@@ -135,102 +139,7 @@ public class Book implements Serializable{
 			return false;
 		return true;
 	}
-
 	
-	
-	
-	//Getters and Setters
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public Set<User> getUsersInFavourite() {
-		return usersInFavourite;
-	}
-
-	public void setUsersInFavourite(Set<User> usersInFavourite) {
-		this.usersInFavourite = usersInFavourite;
-	}
-	
-	public String getImageId() {
-		return imageId;
-	}
-
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
-	}
-
-	public String getBookName() {
-		return bookName;
-	}
-
-	public void setBookName(String bookName) {
-		this.bookName = bookName;
-	}
-
-	public String getBookDescription() {
-		return bookDescription;
-	}
-
-	public void setBookDescription(String bookDescription) {
-		this.bookDescription = bookDescription;
-	}
-
-	public String getBookAuthor() {
-		return bookAuthor;
-	}
-
-	public void setBookAuthor(String bookAuthor) {
-		this.bookAuthor = bookAuthor;
-	}
-
-	public String getBookGenre() {
-		return bookGenre;
-	}
-
-	public void setBookGenre(String bookGenre) {
-		this.bookGenre = bookGenre;
-	}
-
-	public int getBookRating() {
-		return bookRating;
-	}
-
-	public void setBookRating(int bookRating) {
-		this.bookRating = bookRating;
-	}
-
-	public Date getReleaseDate() {
-		return releaseDate;
-	}
-
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
-	}
-
-
-	public String getHtmlDate() {
-		return HtmlDate;
-	}
-
-
-	public void setHtmlDate(String htmlDate) {
-		HtmlDate = htmlDate;
-	}
-	
+	//Getters and Setters provided by LomBok
 
 }
