@@ -5,6 +5,7 @@
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 <b:import resource="database-props.xml"/>
+
 	<http use-expressions="true">
 		<csrf disabled="true" />
 
@@ -29,8 +30,6 @@
 			default-target-url="/book_catalogue" always-use-default-target="false"
 			authentication-failure-url="/login?error=true" username-parameter="username"
 			password-parameter="password" />
-
-
 
 		<logout logout-url="/logout" logout-success-url="/logoutSuccessful"
 			delete-cookies="JSESSIONID" invalidate-session="true" />

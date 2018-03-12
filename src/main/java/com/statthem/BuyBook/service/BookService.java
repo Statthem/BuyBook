@@ -18,7 +18,7 @@ import com.statthem.BuyBook.controller.bookcontroller.BookDownloadController;
 import com.statthem.BuyBook.model.Book;
 import com.statthem.BuyBook.path.FolderPaths;
 
-@Service
+@Service(value="BookService")
 public class BookService implements IBookService{
 	
 private static final Logger logger = Logger.getLogger(BookService.class);

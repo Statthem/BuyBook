@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.statthem.BuyBook.controller.MainController;
+import com.statthem.BuyBook.exception.NoAuthentificatedUserException;
 import com.statthem.BuyBook.model.Book;
 import com.statthem.BuyBook.model.User;
 import com.statthem.BuyBook.service.BookService;
 import com.statthem.BuyBook.service.UserService;
 
-@Controller
+@Controller(value="BookController")
 public class BookController {
 	@Autowired
 	BookService bookService;
@@ -35,14 +36,16 @@ public class BookController {
 	
 	
 	@RequestMapping(value = "/addToFavourite/{BookId}", method = RequestMethod.GET)
-	public ModelAndView addBookToFavourite(@PathVariable("BookId") String BookId, ModelAndView modelAndview) {
+	public ModelAndView addBookToFavourite(@PathVariable("BookId") String BookId, ModelAndView modelAndview){
 		
 		long book_id = Long.valueOf(BookId);
-
 		Book book = bookService.getBook(book_id);
 		
 		//get authenticated user
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication == null) {
+			throw new NoAuthentificatedUserException("no logged in user found");
+			}
 		String currentPrincipalName = authentication.getName();
 		
 		User currentUser =  userService.getUserByEmail(currentPrincipalName);
@@ -56,7 +59,6 @@ public class BookController {
 		
 		return modelAndview;
 	}
-	
 	
 
 

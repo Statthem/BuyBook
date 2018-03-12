@@ -12,30 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.statthem.BuyBook.model.Book;
 import com.statthem.BuyBook.service.BookService;
 
-@RestController
+@RestController(value="RestBookController")
 public class RestBookController {
 
 	@Autowired
 	BookService bookService;
-	
-//	  @RequestMapping(value = "getBook/{bookId}", method = RequestMethod.GET,
-//	            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	    public ResponseEntity<Book> getBook(@PathVariable("bookId") Long bookId) {
-//	        if (bookId == null) {
-//	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//	        }
-//
-//	        Book book = bookService.getBook(bookId);
-//            book.setUsersInFavourite(null);
-//	        
-//	        if (book == null) 
-//	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//	        
-//
-//	        return new ResponseEntity<>(book, HttpStatus.OK);
-//
-//	}
-//	  
 	  
 	  @RequestMapping(value = "getBook/{bookName}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -48,9 +29,9 @@ public class RestBookController {
           book.setUsersInFavourite(null);
           book.setHtmlDate(book.getReleaseDate().toString());
 	        
-	        if (book == null) 
+	        if (book == null) {
 	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	        
+	        }
 
 	        return new ResponseEntity<>(book, HttpStatus.OK);
 

@@ -54,7 +54,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-90 p-b-30">
-			
+
 				<form:form name='f' method="POST"
 					action="/BuyBook/user/registration" modelAttribute="user"
 					class="login100-form validate-form">
@@ -68,14 +68,14 @@
 						</a>
 					</div>
 					<br>
-					
-			<c:if test="${not empty errorsList}">
-			<br>
-					<c:forEach items="${errorsList}" var="error">
-					
-						<p style="color: red;">${error}</p>
-					</c:forEach>
-				</c:if>
+
+					<c:if test="${not empty errorsList}">
+						<br>
+						<c:forEach items="${errorsList}" var="error">
+
+							<p style="color: red;">${error}</p>
+						</c:forEach>
+					</c:if>
 
 					<div class="text-center p-t-55 p-b-30">
 						<span class="txt1"> Registration </span>
@@ -83,33 +83,39 @@
 
 					<div class="wrap-input100 validate-input m-b-16"
 						data-validate="Please enter user name">
-						<form:input path="userName" class="input100" type="text" name='username'
-							placeholder="User name"></form:input> <span class="focus-input100"></span>
+						<form:input path="userName" class="input100" type="text"
+							name='username' placeholder="User name"></form:input>
+						<span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-20"
 						data-validate="Please enter password">
 						<span class="btn-show-pass"> <i class="fa fa fa-eye"></i>
-						</span> <form:input path="userPassword" class="input100" type="password" name='password'
-							placeholder="Password"></form:input> <span class="focus-input100"></span>
+						</span>
+						<form:input path="userPassword" class="input100" type="password"
+							name='password' placeholder="Password"></form:input>
+						<span class="focus-input100"></span>
 					</div>
-					
+
 					<div class="wrap-input100 validate-input m-b-20"
 						data-validate="Please confirm password">
 						<span class="btn-show-pass"> <i class="fa fa fa-eye"></i>
-						</span> <form:input path="matchingPassword" class="input100" type="password" name='password'
-							placeholder="Confirm password"></form:input> <span class="focus-input100"></span>
+						</span>
+						<form:input path="matchingPassword" class="input100"
+							type="password" name='password' placeholder="Confirm password"></form:input>
+						<span class="focus-input100"></span>
 					</div>
 
-					
+
 					<div class="wrap-input100 validate-input m-b-16"
 						data-validate="Please enter your email">
-						<form:input path="userEmail" class="input100" type="text" name='email'
-							placeholder="Email"></form:input> <span class="focus-input100"></span>
+						<form:input path="userEmail" class="input100" type="text"
+							name='email' placeholder="Email"></form:input>
+						<span class="focus-input100"></span>
 					</div>
-					
-					
-						<div class="container-login100-form-btn">
+
+
+					<div class="container-login100-form-btn">
 						<input class="login100-form-btn" name="submit" type="submit"
 							value="Sign me up" />
 					</div>
@@ -146,9 +152,9 @@
 
 </body>
 </html>
-	
-	
-	
+
+
+
 
 </body>
 

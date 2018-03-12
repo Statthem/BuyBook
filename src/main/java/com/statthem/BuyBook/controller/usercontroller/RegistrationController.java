@@ -21,7 +21,7 @@ import com.statthem.BuyBook.model.User;
 import com.statthem.BuyBook.service.UserService;
 import com.statthem.BuyBook.exception.*;
 
-@Controller
+@Controller(value="RegistrationController")
 public class RegistrationController {
 
 	private static final Logger logger = Logger.getLogger(RegistrationController.class);

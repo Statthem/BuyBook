@@ -42,6 +42,12 @@ margin-left:35%;
     color: black;
      padding: 8px;
 }
+
+textarea {
+    overflow: auto;
+    width: 400px;
+    height: 200px;
+}
 </style>
 </head>
 <body background="${contextPath}/resources/images/paper_texture.jpg">

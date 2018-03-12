@@ -28,7 +28,6 @@
 <script src="${contextPath}/resources/js/book_catalogue.js"></script>
 </head>
 <body>
-
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"

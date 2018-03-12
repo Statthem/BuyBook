@@ -15,11 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.statthem.BuyBook.model.Book;
 import com.statthem.BuyBook.model.User;
 
-@Repository
+@Repository(value="UserDAOImpl")
 public class UserDAOImpl implements UserDAO {
 
 	Logger logger = Logger.getLogger(UserDAOImpl.class);
 
+	@Autowired
+	@Qualifier(value = "hibernate4AnnotatedSessionFactory")
+	SessionFactory sessionFactory;
+	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -27,10 +31,6 @@ public class UserDAOImpl implements UserDAO {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
-	@Autowired
-	@Qualifier(value = "hibernate4AnnotatedSessionFactory")
-	SessionFactory sessionFactory;
 
 	public User addUser(User user) {
 		Session session = this.sessionFactory.getCurrentSession();

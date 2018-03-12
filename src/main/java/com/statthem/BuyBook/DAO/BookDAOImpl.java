@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.statthem.BuyBook.model.Book;
 
-@Repository
+@Repository(value="BookDAOImpl")
 public class BookDAOImpl implements BookDAO {
 	
 	Logger logger = Logger.getLogger(BookDAOImpl.class);

@@ -9,7 +9,7 @@ public class EmailExistsExeption extends Exception {
 	}
 
 	public EmailExistsExeption(String msg) {
-
+        this.msg = msg;
 	}
 	
 	public String toString() {

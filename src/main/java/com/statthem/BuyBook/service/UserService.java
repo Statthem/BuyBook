@@ -14,7 +14,7 @@ import com.statthem.BuyBook.exception.EmailExistsExeption;
 import com.statthem.BuyBook.model.Book;
 import com.statthem.BuyBook.model.User;
 
-@Service
+@Service(value="UserService")
 public class UserService implements IUserService {
 	
 @Autowired

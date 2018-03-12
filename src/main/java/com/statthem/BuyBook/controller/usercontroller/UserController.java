@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.statthem.BuyBook.exception.NoAuthentificatedUserException;
 import com.statthem.BuyBook.model.User;
 import com.statthem.BuyBook.service.UserService;
 
-@Controller
+@Controller(value="UserController")
 public class UserController {
 	
 	@Autowired
@@ -20,6 +21,9 @@ public class UserController {
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
 	public ModelAndView UserInfo(ModelAndView modelAndView) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication == null) {
+			throw new NoAuthentificatedUserException("no logged in user found");
+			}
 		String currentPrincipalName = authentication.getName();
 		
 		User currentUser =  userService.getUserByEmail(currentPrincipalName);

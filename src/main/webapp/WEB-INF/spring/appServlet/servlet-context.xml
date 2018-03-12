@@ -64,21 +64,7 @@
 
 	</beans:bean>
 
-	<beans:bean id="BookDAOImpl" class="com.statthem.BuyBook.DAO.BookDAOImpl">
-		<beans:property name="sessionFactory"
-			ref="hibernate4AnnotatedSessionFactory" />
-	</beans:bean>
-	<beans:bean id="BookService" class="com.statthem.BuyBook.service.BookService">
-
-	</beans:bean>
-
-	<beans:bean id="UserDAOImpl" class="com.statthem.BuyBook.DAO.UserDAOImpl">
-		<beans:property name="sessionFactory"
-			ref="hibernate4AnnotatedSessionFactory" />
-	</beans:bean>
-	<beans:bean id="UserService" class="com.statthem.BuyBook.service.UserService">
-
-	</beans:bean>
+	
 
 
 	<context:component-scan base-package="com.statthem.BuyBook*" />

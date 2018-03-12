@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.statthem.BuyBook.model.User;
 import com.statthem.BuyBook.service.UserService;
 
-@Controller
+@Controller(value="LoginController")
 public class LoginController {
 	
 	private static final Logger logger = Logger.getLogger(LoginController.class);

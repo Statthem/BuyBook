@@ -46,7 +46,7 @@ import com.statthem.BuyBook.path.FolderPaths;
 import com.statthem.BuyBook.service.BookService;
 import com.statthem.BuyBook.service.UserService;
 
-@Controller
+@Controller(value="MainController")
 public class MainController {
 
 	private static final Logger logger = Logger.getLogger(MainController.class);

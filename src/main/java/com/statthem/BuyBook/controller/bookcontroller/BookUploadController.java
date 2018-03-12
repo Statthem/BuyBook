@@ -36,7 +36,7 @@ import com.statthem.BuyBook.service.BookService;
 /**
  * Handles requests for the application file upload requests
  */
-@Controller
+@Controller(value="BookUploadController")
 public class BookUploadController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BookUploadController.class);
@@ -46,17 +46,15 @@ public class BookUploadController {
 	
 
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public String getUploadPage(Model model) {
+	public ModelAndView getUploadPage(Model model) {
 
 		Book book = new Book();
 		book.setImageId("");
 		book.setText("");
-		// book.setReleaseDate(DEFAULT_DATE);
 		model.addAttribute("Book", book);
 		model.addAttribute("genreList", BookService.GENRES);
-		return "UploadPage";
+		return new ModelAndView("UploadPage");
 	}
-
 	/**
 	 * Upload multiple file using Spring Controller
 	 */
