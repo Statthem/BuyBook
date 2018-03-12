@@ -52,7 +52,6 @@ public class User implements Serializable{
 	private String userName;
 	
 	@Column(name="user_email")
-	
 	@ValidEmail
 	private String userEmail;
 	

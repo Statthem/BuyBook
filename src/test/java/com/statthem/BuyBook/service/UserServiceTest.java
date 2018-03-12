@@ -1,30 +1,23 @@
-package com.statthem.BuyBook.DAO;
+package com.statthem.BuyBook.service;
 
 import javax.servlet.ServletContext;
 
-import org.hibernate.SessionFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/servlet-context.xml"})
 @WebAppConfiguration
-public class UserDAOImplTest {
-
-	@Autowired
-	@Qualifier(value = "hibernate4AnnotatedSessionFactory")
-	SessionFactory sessionFactory;
+public class UserServiceTest {
 	
 	@Autowired
 	private WebApplicationContext wac;
@@ -41,13 +34,7 @@ public class UserDAOImplTest {
 		ServletContext servletContext = wac.getServletContext();
 
 		Assert.assertNotNull(servletContext);
-		Assert.assertNotNull(wac.getBean("UserDAOImpl"));
-		Assert.assertNotNull(wac.getBean("hibernate4AnnotatedSessionFactory"));
+		Assert.assertNotNull(wac.getBean("UserService"));
 	}
-	
-	@Transactional
-	@Test
-	public void givenSessionFactory_whenGetSession_thenNotNull() {
-		Assert.assertNotNull("problem with db connection",sessionFactory.getCurrentSession());
-	}
+
 }

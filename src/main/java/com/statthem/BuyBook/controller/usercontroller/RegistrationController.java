@@ -59,7 +59,7 @@ public class RegistrationController {
 		if (result.hasErrors()) {
 			return new ModelAndView("RegistrationPage", "errorsList", errorsList);
 		} else {
-			return new ModelAndView("successRegister", "user", user);
+			return new ModelAndView("SuccessRegisterPage", "user", user);
 		}
 	}
 
