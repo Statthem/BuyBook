@@ -69,7 +69,7 @@ public class MainController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/book_catalogue/{OrderBy}", method = RequestMethod.GET)
-	public ModelAndView OrderBy(@PathVariable("OrderBy") String OrderBy, ModelAndView modelAndView,
+	public ModelAndView orderBy(@PathVariable("OrderBy") String OrderBy, ModelAndView modelAndView,
 			HttpSession session) {
 		List<Book> allBooks;
 
@@ -99,7 +99,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/book_catalogue/filter/{filterBy}", method = RequestMethod.GET)
-	public ModelAndView FilterBy(@PathVariable("filterBy") String filterBy, ModelAndView modelAndView,
+	public ModelAndView filterBy(@PathVariable("filterBy") String filterBy, ModelAndView modelAndView,
 			HttpSession session) {
 
 		String genre = filterBy.substring(8);
@@ -145,32 +145,13 @@ public class MainController {
 		return modelAndView;
 	}
 
-	// copying files from backup folder to webapp/resources
-	@PostConstruct
-	private void copyFiles() {
-		File imagesFrom = new File(FolderPaths.BACKUP_IMAGE_FOLDER.getPath());
-		File booksFrom = new File(FolderPaths.BACKUP_BOOK_FOLDER.getPath());
-
-		File imagesTo = new File(FolderPaths.IMAGE_FOLDER.getPath());
-		File booksTo = new File(FolderPaths.BOOK_FOLDER.getPath());
-
-		try {
-			if (booksFrom.isDirectory()) {
-				FileUtils.copyDirectory(imagesFrom, imagesTo);
-			}
-			if (imagesFrom.isDirectory()) {
-				FileUtils.copyDirectory(booksFrom, booksTo);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private List<Book> filter(String genre, List<Book> allBooks) {
 
 		List<Book> filteredBooks = new ArrayList<>();
 
-		allBooks.stream().filter(book -> book.getBookGenre().equals(genre)).forEach(book -> filteredBooks.add(book));
+		allBooks.stream()
+		.filter(book -> book.getBookGenre().equals(genre))
+		.forEach(book -> filteredBooks.add(book));
 
 		return filteredBooks;
 	}
@@ -213,4 +194,26 @@ public class MainController {
 		}
 	};
 
+	
+	// copying files from backup folder to webapp/resources
+		@PostConstruct
+		private void copyFiles() {
+			File imagesFrom = new File(FolderPaths.BACKUP_IMAGE_FOLDER.getPath());
+			File booksFrom = new File(FolderPaths.BACKUP_BOOK_FOLDER.getPath());
+
+			File imagesTo = new File(FolderPaths.IMAGE_FOLDER.getPath());
+			File booksTo = new File(FolderPaths.BOOK_FOLDER.getPath());
+
+			try {
+				if (booksFrom.isDirectory()) {
+					FileUtils.copyDirectory(imagesFrom, imagesTo);
+				}
+				if (imagesFrom.isDirectory()) {
+					FileUtils.copyDirectory(booksFrom, booksTo);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	
 }

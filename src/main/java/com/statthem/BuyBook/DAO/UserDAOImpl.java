@@ -71,7 +71,6 @@ public class UserDAOImpl implements UserDAO {
 			
 		return user;
 	}
-
 	
 	public User findByEmail(String email) {
 		Session session = this.sessionFactory.getCurrentSession();

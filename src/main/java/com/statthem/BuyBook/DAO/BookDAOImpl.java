@@ -25,8 +25,6 @@ public class BookDAOImpl implements BookDAO {
 	@Qualifier(value="hibernate4AnnotatedSessionFactory")
 	SessionFactory sessionFactory;
 	
-	
-	
 	private static final String DEFAULT_IMAGE_ID = "book_cover.jpg";
 
 	public SessionFactory getSessionFactory() {

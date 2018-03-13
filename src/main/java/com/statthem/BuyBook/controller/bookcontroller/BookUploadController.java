@@ -51,12 +51,15 @@ public class BookUploadController {
 		Book book = new Book();
 		book.setImageId("");
 		book.setText("");
+		
 		model.addAttribute("Book", book);
 		model.addAttribute("genreList", BookService.GENRES);
+		
 		return new ModelAndView("UploadPage");
 	}
+	
 	/**
-	 * Upload multiple file using Spring Controller
+	 * Upload book .pdf and .jpg files
 	 */
 	@RequestMapping(value = "/uploadBook", method = RequestMethod.POST)
 	public ModelAndView uploadMultipleFileHandler(@ModelAttribute("Book") @Valid Book book,BindingResult result,

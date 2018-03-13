@@ -19,7 +19,8 @@ public class UserController {
 	UserService userService;
 	
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	public ModelAndView UserInfo(ModelAndView modelAndView) {
+	public ModelAndView getUserInfo(ModelAndView modelAndView) {
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication == null) {
 			throw new NoAuthentificatedUserException("no logged in user found");
